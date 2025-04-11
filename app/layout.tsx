@@ -21,7 +21,7 @@ const DynamicBottomNav = dynamic(() => import("@/components/BottomNav"), {
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "SOLVI: Empowering Your Digital Commerce & Beyond",
+  title: "SOLVI: Buy RMB with Ease",
   description: "A multifunctional companion app for Nigerian entrepreneurs",
     generator: 'v0.dev'
 }

@@ -15,7 +15,7 @@ import { TransactionNotification } from "@/components/TransactionNotification"
 import { WalletStateObserver } from "@/components/WalletStateObserver"
 
 const DynamicBottomNav = dynamic(() => import("@/components/BottomNav"), {
-  ssr: false,
+  // ssr: false,
 })
 
 const inter = Inter({ subsets: ["latin"] })

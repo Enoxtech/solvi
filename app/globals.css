@@ -1,0 +1,379 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+
+    --primary: 222.2 47.4% 11.2%;
+    --primary-foreground: 210 40% 98%;
+
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 222.2 84% 4.9%;
+
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 210 40% 98%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 212.7 26.8% 83.9%;
+  }
+
+  html {
+    font-size: 16px;
+  }
+
+  @media (max-width: 768px) {
+    html {
+      font-size: 14px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    html {
+      font-size: 12px;
+    }
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    background-image: linear-gradient(to bottom right, rgba(58, 16, 120, 0.05), rgba(77, 150, 255, 0.05)),
+      url("https://hebbkx1anhila5yf.public.blob.vercel-storage.com/WhatsApp%20Image%202025-02-24%20at%2014.57.39_28c0e81b.jpg-9gjhuenPx0rmt6RH1DWWbovFZCZVrh.jpeg");
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: center;
+  }
+}
+
+/* Custom utilities */
+.glass-card {
+  @apply bg-white/80 backdrop-blur-md border border-white/20 shadow-nebula;
+}
+
+.hover-lift {
+  @apply transition-all duration-300 hover:-translate-y-1 hover:shadow-nebula-lg;
+}
+
+.pattern-bg {
+  @apply bg-primary;
+  background-image: radial-gradient(at 0% 0%, theme("colors.secondary.DEFAULT") 0, transparent 50%),
+    radial-gradient(at 100% 100%, theme("colors.accent.DEFAULT") 0, transparent 50%);
+}
+
+.bottom-nav-item {
+  @apply flex flex-col items-center justify-center px-4 py-2 text-xs font-medium text-white/60 hover:text-white transition-colors;
+}
+
+.bottom-nav-item.active {
+  @apply text-white;
+  position: relative;
+}
+
+.bottom-nav-item.active::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 20px;
+  height: 3px;
+  @apply bg-accent rounded-full;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 0.6;
+    transform: translateX(-50%) scaleX(0.8);
+  }
+  50% {
+    opacity: 1;
+    transform: translateX(-50%) scaleX(1);
+  }
+  100% {
+    opacity: 0.6;
+    transform: translateX(-50%) scaleX(0.8);
+  }
+}
+
+@layer components {
+  .wallet-card {
+    @apply relative overflow-hidden;
+    background: linear-gradient(135deg, #4a1d96 0%, #312e81 100%);
+    box-shadow: 0 10px 30px -5px rgba(49, 46, 129, 0.5), 0 0 15px rgba(67, 56, 202, 0.3);
+  }
+
+  .wallet-card::before {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 60%);
+    transform: rotate(30deg);
+    animation: shine 6s linear infinite;
+  }
+
+  .wallet-card::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23ffffff' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
+    opacity: 0.1;
+  }
+
+  @keyframes shine {
+    0% {
+      transform: rotate(30deg) translateY(0);
+    }
+    100% {
+      transform: rotate(30deg) translateY(100%);
+    }
+  }
+}
+
+/* Button styles */
+.btn-nebula {
+  @apply bg-primary hover:bg-primary-700 text-white transition-all duration-300;
+  box-shadow: 0 4px 15px -3px rgba(58, 16, 120, 0.4);
+}
+
+.btn-nebula:hover {
+  box-shadow: 0 6px 20px -3px rgba(58, 16, 120, 0.5), 0 0 10px rgba(77, 150, 255, 0.3);
+}
+
+.btn-accent {
+  @apply bg-accent hover:bg-accent-600 text-white transition-all duration-300;
+  box-shadow: 0 4px 15px -3px rgba(249, 0, 191, 0.4);
+}
+
+.btn-accent:hover {
+  box-shadow: 0 6px 20px -3px rgba(249, 0, 191, 0.5), 0 0 10px rgba(249, 0, 191, 0.3);
+}
+
+/* Card styles */
+.card-nebula {
+  @apply bg-white/90 backdrop-blur-md border-0 shadow-nebula rounded-xl overflow-hidden transition-all duration-300;
+}
+
+.card-nebula:hover {
+  @apply shadow-nebula-lg;
+}
+
+.card-accent {
+  @apply bg-gradient-to-br from-accent-500 to-accent-600 text-white border-0 shadow-nebula rounded-xl overflow-hidden transition-all duration-300;
+}
+
+.card-accent:hover {
+  @apply shadow-accent-glow;
+}
+
+/* Responsive typography classes */
+.text-responsive-4xl {
+  @apply text-3xl md:text-4xl lg:text-5xl;
+}
+
+.text-responsive-3xl {
+  @apply text-2xl md:text-3xl lg:text-4xl;
+}
+
+.text-responsive-2xl {
+  @apply text-xl md:text-2xl lg:text-3xl;
+}
+
+.text-responsive-xl {
+  @apply text-lg md:text-xl lg:text-2xl;
+}
+
+.text-responsive-lg {
+  @apply text-base md:text-lg lg:text-xl;
+}
+
+.text-responsive-base {
+  @apply text-sm md:text-base lg:text-lg;
+}
+
+.text-responsive-sm {
+  @apply text-xs md:text-sm lg:text-base;
+}
+
+/* Add these custom styles */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+@layer utilities {
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  .text-gradient {
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-image: linear-gradient(to right, #4d96ff, #f900bf);
+  }
+
+  .bg-nebula-gradient {
+    background: linear-gradient(135deg, #4d96ff 0%, #3a1078 50%, #2c0e5d 100%);
+  }
+
+  .bg-accent-gradient {
+    background: linear-gradient(135deg, #f900bf 0%, #d600a3 100%);
+  }
+
+  .bg-teal-gradient {
+    background: linear-gradient(135deg, #2dcddf 0%, #1a9dad 100%);
+  }
+
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  @keyframes float {
+    0% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+    100% {
+      transform: translateY(0px);
+    }
+  }
+
+  .animate-pulse-subtle {
+    animation: pulse-subtle 3s infinite;
+  }
+
+  @keyframes pulse-subtle {
+    0% {
+      opacity: 0.8;
+      transform: scale(0.98);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1);
+    }
+    100% {
+      opacity: 0.8;
+      transform: scale(0.98);
+    }
+  }
+}
+
+/* Update these utility classes */
+.shadow-nebula-lg {
+  box-shadow: 0 10px 30px -5px rgba(49, 46, 129, 0.5);
+}
+
+.shadow-nebula-glow {
+  box-shadow: 0 0 15px rgba(67, 56, 202, 0.5), 0 0 30px rgba(49, 46, 129, 0.3);
+}
+
+/* Responsive text utilities */
+.text-responsive-xs {
+  font-size: clamp(0.75rem, 2vw, 0.875rem);
+}
+
+.text-responsive-sm {
+  font-size: clamp(0.875rem, 2.5vw, 1rem);
+}
+
+.text-responsive-base {
+  font-size: clamp(1rem, 3vw, 1.125rem);
+}
+
+.text-responsive-lg {
+  font-size: clamp(1.125rem, 3.5vw, 1.25rem);
+}
+
+.text-responsive-xl {
+  font-size: clamp(1.25rem, 4vw, 1.5rem);
+}
+
+.text-responsive-2xl {
+  font-size: clamp(1.5rem, 5vw, 1.875rem);
+}
+
+.text-responsive-3xl {
+  font-size: clamp(1.875rem, 6vw, 2.25rem);
+}
+
+/* Hover lift effect */
+/* Nebula colors */
+.from-nebula-teal {
+  --tw-gradient-from: #0d9488;
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(13, 148, 136, 0));
+}
+
+.to-nebula-indigo {
+  --tw-gradient-to: #4f46e5;
+}
+

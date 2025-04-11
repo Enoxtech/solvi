@@ -8,7 +8,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Card } from "@/components/ui/card"
 import { motion } from "framer-motion"
-import { useCurrency, type CurrencyCode } from "@/contexts/CurrencyContext"
+import { useCurrency } from "@/contexts/CurrencyContext"
+import { type Currency } from "@/stores/walletStore"
 import { NewFeatureBadge } from "@/components/NewFeatureBadge"
 
 const currencyOptions = [
@@ -20,7 +21,7 @@ const currencyOptions = [
 export default function DefaultCurrencyPage() {
   const router = useRouter()
   const { currency, setCurrency } = useCurrency()
-  const [selectedCurrency, setSelectedCurrency] = useState<CurrencyCode>(currency)
+  const [selectedCurrency, setSelectedCurrency] = useState<Currency>(currency)
   const [showSuccess, setShowSuccess] = useState(false)
 
   useEffect(() => {
@@ -59,7 +60,7 @@ export default function DefaultCurrencyPage() {
           <div className="space-y-6">
             <div>
               <p className="text-gray-700 mb-2 font-medium">Select your preferred currency</p>
-              <Select value={selectedCurrency} onValueChange={(value) => setSelectedCurrency(value as CurrencyCode)}>
+              <Select value={selectedCurrency} onValueChange={(value) => setSelectedCurrency(value as Currency)}>
                 <SelectTrigger className="w-full bg-white/70 backdrop-blur-sm border-gray-200 hover:bg-white/90 transition-colors">
                   <SelectValue placeholder="Select currency" />
                 </SelectTrigger>

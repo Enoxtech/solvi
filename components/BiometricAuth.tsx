@@ -36,7 +36,7 @@ export function BiometricAuth({ onSuccess, onError }: BiometricAuthProps) {
 
     checkMobile()
     checkBiometricAvailability()
-  }, [])
+  }, [isMobile])
 
   const handleBiometricAuth = async () => {
     if (!isAvailable) {

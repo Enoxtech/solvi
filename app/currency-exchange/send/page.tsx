@@ -11,6 +11,7 @@ import { Checkbox } from "@/components/ui/checkbox"
 import Link from "next/link"
 import { Card } from "@/components/ui/card"
 import { cn } from "@/lib/utils"
+import Image from "next/image"
 
 export default function SendTo() {
   const [alipayId, setAlipayId] = useState("")
@@ -99,15 +100,13 @@ export default function SendTo() {
                   <input type="file" className="hidden" accept=".jpg,.jpeg,.png" onChange={handleQrCodeUpload} />
                   <div className="flex flex-col items-center justify-center cursor-pointer">
                     <div className="w-32 h-32 bg-white rounded-lg border-2 border-dashed border-gray-300 flex items-center justify-center">
-                      {qrCode ? (
-                        <img
-                          src={URL.createObjectURL(qrCode) || "/placeholder.svg"}
-                          alt="QR Code preview"
-                          className="w-full h-full object-contain"
-                        />
-                      ) : (
-                        <Upload className="h-8 w-8 text-gray-400" />
-                      )}
+                      <Image 
+                        src={qrCode ? URL.createObjectURL(qrCode) || "/placeholder.svg" : "/placeholder.svg"}
+                        alt="QR Code"
+                        width={300}
+                        height={300}
+                        className="w-32 h-32 object-contain rounded-lg shadow-md"
+                      />
                     </div>
                     <div className="mt-2 text-sm text-gray-500 text-center">
                       <p>Minimum size: 3mb</p>

@@ -12,7 +12,7 @@ interface AccountDetailsDialogProps {
 }
 
 export default function AccountDetailsDialog({ isOpen, onClose }: AccountDetailsDialogProps) {
-  const { showNotification } = useNotification()
+  const { addNotification } = useNotification()
   const [copied, setCopied] = useState(false)
 
   const handleCopy = () => {
@@ -21,15 +21,15 @@ export default function AccountDetailsDialog({ isOpen, onClose }: AccountDetails
       .then(() => {
         setCopied(true)
         setTimeout(() => setCopied(false), 2000)
-        showNotification({
+        addNotification({
           type: "success",
           title: "Address copied",
           message: "Wallet address copied to clipboard",
         })
       })
       .catch(() => {
-        showNotification({
-          type: "error",
+        addNotification({
+          type: "urgent",
           title: "Copy failed",
           message: "Failed to copy address to clipboard",
         })

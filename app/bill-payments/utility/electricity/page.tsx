@@ -239,7 +239,7 @@ export default function PayElectricity() {
               </TabsTrigger>
             </TabsList>
             <TabsContent value="beneficiary" className="mt-4">
-              <div className="text-center text-white/70 py-10">You don't have any beneficiary yet</div>
+              <div className="text-center text-white/70 py-10">You haven&apos;t added any beneficiary yet</div>
             </TabsContent>
             <TabsContent value="frequent" className="mt-4">
               <div className="text-center text-white/70 py-10">No frequent payments found</div>
@@ -253,6 +253,7 @@ export default function PayElectricity() {
         open={providerDialogOpen}
         onOpenChange={setProviderDialogOpen}
         providers={electricityProviders}
+        selectedProvider={selectedProvider}
         onSelect={setSelectedProvider}
       />
     </div>

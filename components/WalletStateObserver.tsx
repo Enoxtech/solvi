@@ -26,24 +26,23 @@ export function WalletStateObserver() {
     }
 
     // Subscribe to store changes to update localStorage
-    const unsubscribe = useWalletStore.subscribe(
-      (state) => state.balance,
-      (balance) => {
+    const unsubscribe = useWalletStore.subscribe((state, prevState) => {
+      if (state.balance !== prevState.balance) {
         // Ensure localStorage is updated with the latest balance
         const storedData = localStorage.getItem("velocia-wallet-storage")
         if (storedData) {
           try {
             const parsedData = JSON.parse(storedData)
             if (parsedData.state) {
-              parsedData.state.balance = balance
+              parsedData.state.balance = state.balance
               localStorage.setItem("velocia-wallet-storage", JSON.stringify(parsedData))
             }
           } catch (error) {
             console.error("Error updating wallet data in localStorage:", error)
           }
         }
-      },
-    )
+      }
+    })
 
     return () => {
       unsubscribe()

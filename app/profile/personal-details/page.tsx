@@ -71,7 +71,7 @@ export default function PersonalDetailsPage() {
   }
 
   return (
-    <ProfileLayout title="Personal Details" backUrl="/profile">
+    <ProfileLayout title="Personal Details" backLink="/profile">
       <div className="max-w-md mx-auto">
         <Card className="border-0 shadow-md">
           <CardHeader>

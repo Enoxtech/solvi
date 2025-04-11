@@ -53,14 +53,14 @@ export function AdminProvider({ children }: { children: ReactNode }) {
       toast({
         title: "Admin Mode Activated",
         description: "You can now access admin features.",
-        duration: 2000,
+        variant: "default",
       })
     } else if (adminClickCount >= 5 && isAdmin) {
       toggleAdminAccess()
       toast({
         title: "Admin Mode Deactivated",
         description: "Admin features are now disabled.",
-        duration: 2000,
+        variant: "default",
       })
     }
   }, [adminClickCount])

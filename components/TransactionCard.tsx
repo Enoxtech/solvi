@@ -12,13 +12,9 @@ export function TransactionCard({ transaction, currency }: TransactionCardProps)
   const { type, amount, description, date, status, category } = transaction
 
   const isCredit = type === "credit"
-  // Ensure amount is a valid number before formatting
-  const numAmount =
-    typeof amount === "number" && !isNaN(amount)
-      ? amount
-      : typeof amount === "string" && amount
-        ? Number.parseFloat(amount.replace(/[^\d.-]/g, "")) || 0
-        : 0
+  
+  // Convert amount to number safely
+  const numAmount = typeof amount === "number" ? amount : 0
 
   const formattedAmount = new Intl.NumberFormat("en-NG", {
     style: "currency",

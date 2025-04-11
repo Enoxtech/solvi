@@ -15,6 +15,7 @@ import { FundWalletDialog } from "@/components/FundWalletDialog"
 import { useWallet } from "@/contexts/WalletContext"
 import { WarningDialog } from "@/components/WarningDialog"
 import { useWalletStore } from "@/stores/walletStore"
+import Image from 'next/image'
 
 interface TransactionDetails {
   rmbAmount: string
@@ -114,7 +115,6 @@ export default function ConfirmDetails() {
         router.push("/currency-exchange/send-to")
       }
     }
-
     loadDetails()
   }, [router, toast])
 
@@ -194,18 +194,17 @@ export default function ConfirmDetails() {
 
   // Subscribe to wallet store changes to ensure real-time balance updates
   useEffect(() => {
-    const unsubscribe = useWalletStore.subscribe(
-      (state) => state.balance,
-      () => {
-        // Force re-render when wallet balance changes
+    const unsubscribe = useWalletStore.subscribe((state) => {
+      // Force re-render when wallet balance changes
+      if (state.balance !== undefined) {
         forceUpdate()
-      },
-    )
+      }
+    })
 
     return () => {
       unsubscribe()
     }
-  }, [forceUpdate])
+  }, [forceUpdate, useWalletStore])
 
   const handleRefresh = async () => {
     if (isRefreshing) return
@@ -431,9 +430,11 @@ export default function ConfirmDetails() {
               </div>
             ) : details.qrCodePreview ? (
               <div className="flex justify-center">
-                <img
+                <Image 
                   src={details.qrCodePreview || "/placeholder.svg"}
                   alt="QR Code"
+                  width={300}
+                  height={300}
                   className="w-32 h-32 object-contain rounded-lg shadow-md"
                 />
               </div>
@@ -606,6 +607,8 @@ export default function ConfirmDetails() {
           </motion.div>
         )}
       </AnimatePresence>
+
+      <p className="text-white/70">Don&apos;t have an account? <Link href="/signup">Sign up</Link></p>
     </div>
   )
 }

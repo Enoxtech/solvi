@@ -8,6 +8,7 @@ import { ProfileLayout } from "@/components/ProfileLayout"
 import { Card } from "@/components/ui/card"
 import { useToast } from "@/components/ui/use-toast"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import Image from "next/image"
 
 interface UploadedFile {
   type: string
@@ -37,7 +38,7 @@ export default function Tier2Verification() {
     }
 
     // Check dimensions
-    const img = new Image()
+    const img = document.createElement('img')
     img.onload = () => {
       if (img.width < 800 || img.height < 800) {
         toast({
@@ -89,9 +90,11 @@ export default function Tier2Verification() {
           <div className="flex flex-col items-center gap-4">
             <div className="w-full h-32 bg-white rounded-xl border-2 border-dashed border-gray-300 flex items-center justify-center">
               {uploadedFiles.find((f) => f.type === type) ? (
-                <img
+                <Image 
                   src={URL.createObjectURL(uploadedFiles.find((f) => f.type === type)!.file) || "/placeholder.svg"}
                   alt={`${type} preview`}
+                  width={300}
+                  height={300}
                   className="w-full h-full object-contain p-2"
                 />
               ) : (

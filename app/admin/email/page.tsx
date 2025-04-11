@@ -1,7 +1,7 @@
 "use client"
 
-import { AdminHeader } from "@/components/admin/AdminHeader"
-import { AdminSidebar } from "@/components/admin/AdminSidebar"
+import { AdminHeader } from "@/components/admin/admin-header"
+import { AdminSidebar } from "@/components/admin/admin-sidebar"
 import { AdminEmailSystem } from "@/components/admin/AdminEmailSystem"
 
 export default function AdminEmailPage() {

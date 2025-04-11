@@ -8,32 +8,31 @@ export function TransactionNotification() {
   const { transactions } = useWalletStore()
   const { addNotification } = useNotifications()
 
-  // Keep track of processed transaction IDs to avoid duplicate notifications
-  const processedTransactions = new Set<string>()
-
   useEffect(() => {
+    const processedTransactions = {
+      pending: transactions.filter((t) => t.status === "Pending"),
+      completed: transactions.filter((t) => t.status === "Completed"),
+      failed: transactions.filter((t) => t.status === "Failed"),
+    }
     // Check for status changes in transactions
     transactions.forEach((transaction) => {
       // Skip already processed transactions
-      if (processedTransactions.has(transaction.id)) return
-
-      // Add to processed set
-      processedTransactions.add(transaction.id)
+      if (processedTransactions.completed.some(t => t.id === transaction.id) || 
+          processedTransactions.failed.some(t => t.id === transaction.id)) return
 
       // For new completed transactions, show a notification
-      if (transaction.status === "Successful" && transaction.category === "Currency Exchange") {
+      if (transaction.status === "Completed") {
         addNotification({
-          title: "RMB Purchase Completed",
-          message: `Your purchase of RMB has been completed successfully.`,
+          title: "Transaction Completed",
+          message: `Your transaction of ${transaction.amount} has been completed successfully.`,
           type: "success",
         })
       }
-
-      // For failed transactions
-      if (transaction.status === "Failed" && transaction.category === "Currency Exchange") {
+      // For failed transactions, show an error notification
+      else if (transaction.status === "Failed") {
         addNotification({
-          title: "RMB Purchase Failed",
-          message: `Your purchase of RMB could not be completed. Please contact support.`,
+          title: "Transaction Failed",
+          message: `Your transaction of ${transaction.amount} has failed. Please try again.`,
           type: "urgent",
         })
       }

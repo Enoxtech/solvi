@@ -23,12 +23,9 @@ export function WalletProvider({ children }: { children: ReactNode }) {
     setBalance(walletStore.balance)
 
     // Subscribe to store changes
-    const unsubscribe = useWalletStore.subscribe(
-      (state) => state.balance,
-      (newBalance) => {
-        setBalance(newBalance)
-      },
-    )
+    const unsubscribe = useWalletStore.subscribe((state) => {
+      setBalance(state.balance)
+    })
 
     return () => {
       unsubscribe()

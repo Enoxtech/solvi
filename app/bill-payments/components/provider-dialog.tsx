@@ -5,11 +5,16 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { ProviderLogo } from "@/components/provider-logo"
 import { useRouter } from "next/navigation"
 
+interface Provider {
+  id: string
+  name: string
+}
+
 interface ProviderDialogProps {
   open: boolean
   onOpenChange: (open: boolean) => void
-  type: "data" | "airtime" | "tv"
-  onSelect: (provider: any) => void
+  type: "data" | "airtime" | "tv" | "utility" | "betting" | "examination"
+  onSelect: (provider: Provider) => void
 }
 
 export function ProviderDialog({ open, onOpenChange, type, onSelect }: ProviderDialogProps) {
@@ -35,9 +40,33 @@ export function ProviderDialog({ open, onOpenChange, type, onSelect }: ProviderD
       { id: "startimes", name: "StarTimes" },
       { id: "showmax", name: "Showmax" },
     ],
+    utility: [
+      { id: "aedc", name: "Abuja Electricity" },
+      { id: "bedc", name: "Benin Electricity" },
+      { id: "ekedc", name: "Eko Electricity" },
+      { id: "eedc", name: "Enugu Electricity" },
+      { id: "ibedc", name: "Ibadan Electricity" },
+      { id: "ikedc", name: "Ikeja Electricity" },
+      { id: "jed", name: "Jos Electricity" },
+      { id: "kaedco", name: "Kaduna Electricity" },
+      { id: "kedco", name: "Kano Electricity" },
+      { id: "phed", name: "Port Harcourt Electricity" },
+    ],
+    betting: [
+      { id: "bet9ja", name: "Bet9ja" },
+      { id: "nairabet", name: "Nairabet" },
+      { id: "sportybet", name: "SportyBet" },
+      { id: "betking", name: "BetKing" },
+    ],
+    examination: [
+      { id: "waec", name: "WAEC" },
+      { id: "neco", name: "NECO" },
+      { id: "nabteb", name: "NABTEB" },
+      { id: "jamb", name: "JAMB" },
+    ],
   }
 
-  const handleSelect = (provider: any) => {
+  const handleSelect = (provider: Provider) => {
     setSelectedProvider(provider.id)
     onSelect(provider)
     onOpenChange(false)
@@ -47,6 +76,14 @@ export function ProviderDialog({ open, onOpenChange, type, onSelect }: ProviderD
       router.push("/bill-payments/data")
     } else if (type === "airtime") {
       router.push("/bill-payments/airtime")
+    } else if (type === "tv") {
+      router.push("/bill-payments/tv")
+    } else if (type === "utility") {
+      router.push("/bill-payments/utility/electricity")
+    } else if (type === "betting") {
+      router.push("/bill-payments/betting")
+    } else if (type === "examination") {
+      router.push("/bill-payments/examination")
     }
   }
 

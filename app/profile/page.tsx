@@ -27,8 +27,19 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } f
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 
+interface MenuItem {
+  icon: React.ComponentType<{ className?: string }>
+  label: string
+  href: string
+  isNew?: boolean
+}
+
+interface MenuItems {
+  [key: string]: MenuItem[]
+}
+
 // Menu items for different sections
-const menuItems = {
+const menuItems: MenuItems = {
   Account: [
     { icon: User, label: "Personal details", href: "/profile/personal-details" },
     { icon: Building2, label: "Business details", href: "/profile/business" },

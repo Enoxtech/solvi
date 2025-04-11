@@ -1,13 +1,21 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { Grid } from "lucide-react"
+import { Grid, LucideIcon } from "lucide-react"
 import { Card, CardContent } from "@/components/ui/card"
 import Link from "next/link"
 import { cn } from "@/lib/utils"
+import React from "react"
+
+type QuickAction = {
+  title: string
+  href: string
+  icon: React.FC | LucideIcon
+  color: string
+}
 
 export function QuickActions() {
-  const quickActions = [
+  const quickActions: QuickAction[] = [
     {
       title: "Betting",
       href: "/bill-payments/betting",
@@ -85,14 +93,14 @@ export function QuickActions() {
                       animate={{ y: [0, -2, 0] }}
                       transition={{ duration: 1, repeat: Number.POSITIVE_INFINITY }}
                     >
-                      {action.icon()}
+                      <action.icon />
                     </motion.div>
                   ) : (
                     <motion.div
                       animate={{ rotate: [0, 360] }}
                       transition={{ duration: 20, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
                     >
-                      <action.icon className="h-5 w-5 mb-1" />
+                      {React.createElement(action.icon, { className: "h-5 w-5 mb-1" })}
                     </motion.div>
                   )}
                   <h3 className="font-extrabold text-sm">{action.title}</h3>

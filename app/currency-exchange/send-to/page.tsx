@@ -105,7 +105,7 @@ export default function SendTo() {
       setShowWarningAlert(true)
       setWarningType("warning")
       setWarningTitle("Alipay QR Code Required")
-      setWarningMessage("Please upload the recipient's Alipay QR code to proceed with transactions above 100 RMB.")
+      setWarningMessage("Please upload the recipient&apos;s Alipay QR code to proceed with transactions above 100 RMB.")
     }
   }, [rmbAmount, qrCodePreview, showWarningDialog, alipayId, alipayName])
 
@@ -162,12 +162,12 @@ export default function SendTo() {
   const handleNext = () => {
     // Validate inputs but allow proceeding
     if (!alipayId) {
-      handleShowWarning("Missing Alipay ID", "Please enter the recipient's Alipay ID", "warning")
+      handleShowWarning("Missing Alipay ID", "Please enter the recipient&apos;s Alipay ID", "warning")
       return
     }
 
     if (!alipayName) {
-      handleShowWarning("Missing Alipay Name", "Please enter the recipient's Alipay Name", "warning")
+      handleShowWarning("Missing Alipay Name", "Please enter the recipient&apos;s Alipay Name", "warning")
       return
     }
 
@@ -306,7 +306,7 @@ export default function SendTo() {
                       <AlertCircle className="h-4 w-4 text-gray-400 cursor-help" />
                     </TooltipTrigger>
                     <TooltipContent>
-                      <p>Enter the recipient's Alipay ID. This can be found in their Alipay profile settings.</p>
+                      <p>Enter the recipient&apos;s Alipay ID. This can be found in their Alipay profile settings.</p>
                     </TooltipContent>
                   </Tooltip>
                 </TooltipProvider>
@@ -333,7 +333,7 @@ export default function SendTo() {
                     </TooltipTrigger>
                     <TooltipContent>
                       <p>
-                        Enter the name exactly as it appears on the recipient's international passport and Alipay
+                        Enter the name exactly as it appears on the recipient&apos;s international passport and Alipay
                         account.
                       </p>
                     </TooltipContent>
@@ -361,7 +361,7 @@ export default function SendTo() {
                     </TooltipTrigger>
                     <TooltipContent>
                       <p>
-                        Upload the recipient's Alipay QR code. You can scan it directly or choose from your gallery.
+                        Upload the recipient&apos;s Alipay QR code. You can scan it directly or choose from your gallery.
                       </p>
                     </TooltipContent>
                   </Tooltip>
@@ -486,6 +486,8 @@ export default function SendTo() {
         onOpenChange={setShowUploadDialog}
         onSelectOption={handleQrCodeUpload}
       />
+
+      <p className="text-white/70">Don&apos;t have an account? <Link href="/signup">Sign up</Link></p>
     </div>
   )
 }

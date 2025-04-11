@@ -4,8 +4,17 @@ import { hapticFeedback } from "@/utils/haptics"
 import { formatCurrency } from "@/utils/formatCurrency"
 
 export type Currency = "NGN" | "USD" | "RMB"
-export type TransactionStatus = "Pending" | "Successful" | "Failed" | "Completed"
+export type TransactionStatus = "Pending" | "Successful" | "Failed" | "Completed" | "Rejected"
 export type TransactionType = "debit" | "credit"
+
+export interface RecipientDetails {
+  name?: string
+  accountNumber?: string
+  bankName?: string
+  phoneNumber?: string
+  email?: string
+  reference?: string
+}
 
 export interface Transaction {
   id: string
@@ -17,7 +26,7 @@ export interface Transaction {
   status: TransactionStatus
   type: TransactionType
   reference?: string
-  recipientDetails?: any
+  recipientDetails?: RecipientDetails
   originalAmount?: number
   exchangeRate?: number
 }
@@ -218,10 +227,6 @@ export const useWalletStore = create<WalletState>()(
 )
 
 // Subscribe to balance changes for debugging
-useWalletStore.subscribe(
-  (state) => state.balance,
-  (balance) => {
-    console.log("Wallet balance updated:", balance)
-  },
-)
-
+useWalletStore.subscribe((state) => {
+  console.log("Wallet balance updated:", state.balance)
+})

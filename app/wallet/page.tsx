@@ -1,8 +1,8 @@
-import { ArrowRightLeft, User } from "lucide-react"
+import { ArrowRightLeft, User, Wallet } from "lucide-react"
 import Link from "next/link"
 import { Card } from "@/components/ui/card"
 
-export default function Wallet() {
+export default function WalletPage() {
   return (
     <div className="p-6 space-y-6">
       <h1 className="text-3xl font-bold mb-6 text-gray-900">Wallet & BNPL</h1>

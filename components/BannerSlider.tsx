@@ -4,6 +4,7 @@ import type React from "react"
 
 import { useState, useEffect, useRef } from "react"
 import { DollarSign, Truck, Users, MessageSquare, Gift, ArrowRight } from "lucide-react"
+import Image from "next/image"
 
 interface BannerSlideProps {
   title: string
@@ -38,7 +39,13 @@ function BannerSlide({ title, subtitle, value, cta = "Learn More", icon: Icon, c
       )}
       {image && (
         <div className="absolute right-1 bottom-1">
-          <img src={image || "/placeholder.svg?height=40&width=40"} alt="" className="w-10 h-10 object-contain" />
+          <Image 
+            src={image}
+            alt={title}
+            width={1200}
+            height={400}
+            className="w-10 h-10 object-cover rounded-xl"
+          />
         </div>
       )}
     </div>

@@ -10,7 +10,6 @@ import {
   Paperclip,
   Send,
   Smile,
-  Image,
   File,
   Mic,
   MoreVertical,
@@ -22,6 +21,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
 import { Textarea } from "@/components/ui/textarea"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import Image from "next/image"
 
 interface ChatUser {
   id: string
@@ -336,10 +336,13 @@ export function AdminLiveChat() {
                     onClick={() => setSelectedUser(user)}
                   >
                     <div className="relative">
-                      <Avatar className="h-10 w-10 border border-white/20">
-                        <AvatarImage src={user.avatar} alt={user.name} />
-                        <AvatarFallback className="bg-blue-700 text-white">{user.name.charAt(0)}</AvatarFallback>
-                      </Avatar>
+                      <Image 
+                        src={user.avatar || "/placeholder-user.jpg"}
+                        alt="User Avatar"
+                        width={40}
+                        height={40}
+                        className="w-10 h-10 rounded-full object-cover"
+                      />
                       <span
                         className={`absolute bottom-0 right-0 h-3 w-3 rounded-full ${getStatusColor(user.status)} ring-1 ring-white`}
                       />
@@ -348,7 +351,7 @@ export function AdminLiveChat() {
                     <div className="flex-1 min-w-0">
                       <div className="flex justify-between items-baseline">
                         <p className="text-sm font-medium text-white truncate">{user.name}</p>
-                        {user.unreadCount > 0 && (
+                        {user.unreadCount != null && user.unreadCount > 0 && (
                           <Badge className="bg-blue-600 text-white ml-2">{user.unreadCount}</Badge>
                         )}
                       </div>
@@ -372,10 +375,13 @@ export function AdminLiveChat() {
                       onClick={() => setSelectedUser(user)}
                     >
                       <div className="relative">
-                        <Avatar className="h-10 w-10 border border-white/20">
-                          <AvatarImage src={user.avatar} alt={user.name} />
-                          <AvatarFallback className="bg-blue-700 text-white">{user.name.charAt(0)}</AvatarFallback>
-                        </Avatar>
+                        <Image 
+                          src={user.avatar || "/placeholder-user.jpg"}
+                          alt="User Avatar"
+                          width={40}
+                          height={40}
+                          className="w-10 h-10 rounded-full object-cover"
+                        />
                         <span
                           className={`absolute bottom-0 right-0 h-3 w-3 rounded-full ${getStatusColor(user.status)} ring-1 ring-white`}
                         />
@@ -406,17 +412,20 @@ export function AdminLiveChat() {
                       onClick={() => setSelectedUser(user)}
                     >
                       <div className="relative">
-                        <Avatar className="h-10 w-10 border border-white/20">
-                          <AvatarImage src={user.avatar} alt={user.name} />
-                          <AvatarFallback className="bg-blue-700 text-white">{user.name.charAt(0)}</AvatarFallback>
-                        </Avatar>
+                        <Image 
+                          src={user.avatar || "/placeholder-user.jpg"}
+                          alt="User Avatar"
+                          width={40}
+                          height={40}
+                          className="w-10 h-10 rounded-full object-cover"
+                        />
                         <span className="absolute bottom-0 right-0 h-3 w-3 rounded-full bg-green-500 ring-1 ring-white" />
                       </div>
 
                       <div className="flex-1 min-w-0">
                         <div className="flex justify-between items-baseline">
                           <p className="text-sm font-medium text-white truncate">{user.name}</p>
-                          {user.unreadCount > 0 && (
+                          {user.unreadCount !== undefined && user.unreadCount > 0 && (
                             <Badge className="bg-blue-600 text-white ml-2">{user.unreadCount}</Badge>
                           )}
                         </div>
@@ -436,10 +445,13 @@ export function AdminLiveChat() {
             <div className="p-4 border-b border-white/10 bg-white/5 flex justify-between items-center">
               <div className="flex items-center gap-3">
                 <div className="relative">
-                  <Avatar className="h-10 w-10 border border-white/20">
-                    <AvatarImage src={selectedUser.avatar} alt={selectedUser.name} />
-                    <AvatarFallback className="bg-blue-700 text-white">{selectedUser.name.charAt(0)}</AvatarFallback>
-                  </Avatar>
+                  <Image 
+                    src={selectedUser.avatar || "/placeholder-user.jpg"}
+                    alt="User Avatar"
+                    width={40}
+                    height={40}
+                    className="w-10 h-10 rounded-full object-cover"
+                  />
                   <span
                     className={`absolute bottom-0 right-0 h-3 w-3 rounded-full ${getStatusColor(selectedUser.status)} ring-1 ring-white`}
                   />
@@ -479,12 +491,13 @@ export function AdminLiveChat() {
                   <div key={message.id} className={`flex ${isAdmin ? "justify-end" : "justify-start"}`}>
                     <div className={`flex gap-3 max-w-[70%] ${isAdmin ? "flex-row-reverse" : ""}`}>
                       {!isAdmin && showAvatar ? (
-                        <Avatar className="h-8 w-8 mt-1 border border-white/20">
-                          <AvatarImage src={selectedUser.avatar} alt={selectedUser.name} />
-                          <AvatarFallback className="bg-blue-700 text-white text-xs">
-                            {selectedUser.name.charAt(0)}
-                          </AvatarFallback>
-                        </Avatar>
+                        <Image 
+                          src={selectedUser.avatar || "/placeholder-user.jpg"}
+                          alt="User Avatar"
+                          width={40}
+                          height={40}
+                          className="w-8 h-8 mt-1 rounded-full object-cover"
+                        />
                       ) : !isAdmin ? (
                         <div className="w-8" />
                       ) : null}
@@ -500,7 +513,13 @@ export function AdminLiveChat() {
                               {message.attachments.map((attachment, i) => (
                                 <div key={i} className="flex items-center gap-2 p-2 bg-white/10 rounded-lg">
                                   {attachment.type.startsWith("image/") ? (
-                                    <Image className="h-5 w-5 text-white/70" />
+                                    <Image 
+                                      src={attachment.url} 
+                                      alt="Chat message attachment" 
+                                      width={20}
+                                      height={20}
+                                      className="h-5 w-5 text-white/70"
+                                    />
                                   ) : (
                                     <File className="h-5 w-5 text-white/70" />
                                   )}
@@ -545,12 +564,13 @@ export function AdminLiveChat() {
               {isTyping && (
                 <div className="flex justify-start">
                   <div className="flex gap-3 max-w-[70%]">
-                    <Avatar className="h-8 w-8 mt-1 border border-white/20">
-                      <AvatarImage src={selectedUser.avatar} alt={selectedUser.name} />
-                      <AvatarFallback className="bg-blue-700 text-white text-xs">
-                        {selectedUser.name.charAt(0)}
-                      </AvatarFallback>
-                    </Avatar>
+                    <Image 
+                      src={selectedUser.avatar || "/placeholder-user.jpg"}
+                      alt="User Avatar"
+                      width={40}
+                      height={40}
+                      className="w-8 h-8 mt-1 rounded-full object-cover"
+                    />
 
                     <div className="p-3 rounded-lg bg-white/10 text-white">
                       <div className="flex gap-1">

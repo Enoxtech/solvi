@@ -10,6 +10,7 @@ import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { hapticFeedback } from "@/utils/haptics"
 import { Card, CardContent } from "@/components/ui/card"
+import Link from "next/link"
 
 export default function ForgotPasswordPage() {
   const [email, setEmail] = useState("")
@@ -183,7 +184,7 @@ export default function ForgotPasswordPage() {
                 <div className="text-center mb-8">
                   <h1 className="text-3xl font-bold text-white mb-2">Forgot Password</h1>
                   <p className="text-blue-100/70">
-                    Enter your email address and we'll send you a link to reset your password.
+                    Enter your email address and we&apos;ll send you a link to reset your password.
                   </p>
                 </div>
 
@@ -257,7 +258,7 @@ export default function ForgotPasswordPage() {
                       </motion.div>
                       <h2 className="text-xl font-semibold text-white mb-2">Check Your Email</h2>
                       <p className="text-blue-100/70 mb-6">
-                        We've sent a password reset link to <span className="font-medium text-white">{email}</span>
+                        We&apos;ve sent a password reset link to <span className="font-medium text-white">{email}</span>
                       </p>
                       <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} className="w-full">
                         <Button
@@ -271,7 +272,7 @@ export default function ForgotPasswordPage() {
                         onClick={() => setIsSubmitted(false)}
                         className="mt-4 text-blue-400 hover:text-blue-300 font-medium"
                       >
-                        Didn't receive the email? Try again
+                        Didn&apos;t receive the email? Try again
                       </button>
                     </div>
                   </CardContent>
@@ -283,6 +284,10 @@ export default function ForgotPasswordPage() {
 
         <div className="mt-8 text-center text-white/50 text-xs">
           <p>© 2024 Velocia. All rights reserved.</p>
+        </div>
+
+        <div className="mt-8 text-center text-white/70">
+          <p>Don&apos;t have an account? <Link href="/signup">Sign up</Link></p>
         </div>
       </div>
     </div>

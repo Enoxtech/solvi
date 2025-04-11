@@ -27,7 +27,7 @@ export function PaymentTabs({ activeTab, setActiveTab }: PaymentTabsProps) {
       </TabsList>
       <TabsContent value="beneficiary" className="mt-4">
         <Card className="bg-white/5 backdrop-blur-sm border-0 p-6 rounded-xl">
-          <p className="text-white/70 text-center">You don't have any beneficiary yet</p>
+          <p className="text-white/70 text-center">You haven&apos;t added any beneficiary yet</p>
         </Card>
       </TabsContent>
       <TabsContent value="frequent" className="mt-4">

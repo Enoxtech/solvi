@@ -2,20 +2,23 @@
 
 import { useState } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { useWallet } from "@/contexts/WalletContext"
+import { useWalletStore } from "@/stores/walletStore"
 import { useCurrency } from "@/contexts/CurrencyContext"
 import { ArrowUpRight, ArrowDownLeft, Search } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Badge } from "@/components/ui/badge"
+import type { Transaction } from "@/stores/walletStore"
 
 export function TransactionHistory() {
-  const { transactions } = useWallet()
-  const { formatAmount } = useCurrency()
+  const { getTransactionHistory } = useWalletStore()
+  const { currency } = useCurrency()
   const [searchTerm, setSearchTerm] = useState("")
   const [filter, setFilter] = useState("all")
 
-  const filteredTransactions = transactions.filter((transaction) => {
+  const transactions = getTransactionHistory()
+
+  const filteredTransactions = transactions.filter((transaction: Transaction) => {
     const matchesSearch =
       transaction.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
       transaction.category.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -53,6 +56,15 @@ export function TransactionHistory() {
     }
   }
 
+  const formatAmount = (amount: number) => {
+    return new Intl.NumberFormat("en-NG", {
+      style: "currency",
+      currency: currency === "NGN" ? "NGN" : currency === "USD" ? "USD" : "CNY",
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    }).format(amount / 100)
+  }
+
   return (
     <Card>
       <CardHeader>
@@ -86,7 +98,7 @@ export function TransactionHistory() {
           <div className="text-center py-8 text-gray-500">No transactions found</div>
         ) : (
           <div className="space-y-4">
-            {filteredTransactions.map((transaction) => (
+            {filteredTransactions.map((transaction: Transaction) => (
               <div
                 key={transaction.id}
                 className="flex items-center justify-between p-4 rounded-lg border border-gray-100 hover:bg-gray-50 transition-colors"
@@ -113,25 +125,7 @@ export function TransactionHistory() {
                 </div>
                 <div className="text-right">
                   <div className={`font-medium ${transaction.type === "credit" ? "text-green-600" : "text-red-600"}`}>
-                    {transaction.type === "credit" ? "+" : "-"} {(() => {
-                      // Ensure transaction.amount is a valid number
-                      const numAmount =
-                        typeof transaction.amount === "number" && !isNaN(transaction.amount)
-                          ? transaction.amount
-                          : typeof transaction.amount === "string" && transaction.amount
-                            ? Number.parseFloat(transaction.amount.replace(/[^\d.-]/g, "")) || 0
-                            : 0
-
-                      // Format based on currency
-                      if (transaction.currency === "RMB") {
-                        return `¥${(numAmount / 100).toLocaleString("en-NG", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
-                      } else if (transaction.currency === "USD") {
-                        return `$${(numAmount / 100).toLocaleString("en-NG", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
-                      } else {
-                        // Default to NGN
-                        return `₦${(numAmount / 100).toLocaleString("en-NG", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
-                      }
-                    })()}
+                    {transaction.type === "credit" ? "+" : "-"} {formatAmount(transaction.amount)}
                   </div>
                   <Badge variant="outline" className={`mt-1 ${getStatusColor(transaction.status)}`}>
                     {transaction.status}

@@ -107,7 +107,7 @@ export default function NotificationsPage() {
           <div className="flex flex-col items-center justify-center h-[60vh] text-white">
             <Bell className="h-16 w-16 opacity-20 mb-4" />
             <p className="text-xl font-medium mb-2">No notifications</p>
-            <p className="text-white/80">You don't have any {filter !== "all" ? filter : ""} notifications yet</p>
+            <p className="text-white/80">You don&apos;t have any {filter !== "all" ? filter : ""} notifications yet</p>
           </div>
         ) : (
           <div className="space-y-4">

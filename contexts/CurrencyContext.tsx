@@ -26,19 +26,15 @@ export function CurrencyProvider({ children }: { children: React.ReactNode }) {
 
   const setCurrency = (newCurrency: Currency) => {
     setCurrencyState(newCurrency)
-    // Check if the wallet store has a setCurrency method
-    if (typeof walletStore.setCurrency === "function") {
-      walletStore.setCurrency(newCurrency)
-    } else {
-      console.warn("setCurrency is not available in walletStore")
-      // Fallback: Update localStorage directly if needed
-      try {
-        const walletData = JSON.parse(localStorage.getItem("wallet-data") || "{}")
-        walletData.currency = newCurrency
-        localStorage.setItem("wallet-data", JSON.stringify(walletData))
-      } catch (error) {
-        console.error("Failed to update currency in localStorage", error)
+    // Update the wallet store's currency in localStorage
+    try {
+      const walletData = JSON.parse(localStorage.getItem("velocia-wallet-storage") || "{}")
+      if (walletData.state) {
+        walletData.state.currency = newCurrency
+        localStorage.setItem("velocia-wallet-storage", JSON.stringify(walletData))
       }
+    } catch (error) {
+      console.error("Failed to update currency in localStorage", error)
     }
   }
 

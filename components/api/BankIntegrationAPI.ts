@@ -1,7 +1,12 @@
 // This is a simulated API component for bank integration
-// In a real-world scenario, this would connect to the bank's API
+// Simulating Paystack-like functionality
 
-import type { BankAccount } from "@/stores/walletStore"
+export interface BankAccount {
+  bankName: string
+  accountNumber: string
+  accountName: string
+  bankCode: string
+}
 
 export interface BankTransferRequest {
   amount: number
@@ -30,14 +35,11 @@ export interface VerifyAccountResponse {
 }
 
 export class BankIntegrationAPI {
-  private static baseUrl = process.env.NEXT_PUBLIC_API_URL || "https://api.velocia.com"
-  private static apiKey = process.env.BANK_API_KEY || ""
+  private static baseUrl = process.env.NEXT_PUBLIC_API_URL || "https://api.paystack.co"
+  private static apiKey = process.env.PAYSTACK_SECRET_KEY || ""
 
   // Simulate verifying a bank account
   static async verifyAccount(request: VerifyAccountRequest): Promise<VerifyAccountResponse> {
-    // In a real implementation, this would make an API call to the bank
-    console.log("Verifying account:", request)
-
     // Simulate API delay
     await new Promise((resolve) => setTimeout(resolve, 1500))
 
@@ -59,9 +61,6 @@ export class BankIntegrationAPI {
 
   // Simulate initiating a bank transfer
   static async initiateTransfer(request: BankTransferRequest): Promise<BankTransferResponse> {
-    // In a real implementation, this would make an API call to the bank
-    console.log("Initiating transfer:", request)
-
     // Simulate API delay
     await new Promise((resolve) => setTimeout(resolve, 2000))
 
@@ -85,41 +84,53 @@ export class BankIntegrationAPI {
 
   // Simulate getting bank list
   static async getBankList(): Promise<{ code: string; name: string }[]> {
-    // In a real implementation, this would make an API call to get the list of banks
-    console.log("Getting bank list")
-
     // Simulate API delay
     await new Promise((resolve) => setTimeout(resolve, 1000))
 
     // Return a simulated list of banks
     return [
-      { code: "001", name: "Velocia Bank" },
-      { code: "002", name: "First Bank" },
-      { code: "003", name: "Zenith Bank" },
-      { code: "004", name: "GTBank" },
-      { code: "005", name: "Access Bank" },
+      { code: "044", name: "Access Bank" },
+      { code: "063", name: "Access Bank (Diamond)" },
+      { code: "050", name: "Ecobank Nigeria" },
+      { code: "070", name: "Fidelity Bank" },
+      { code: "011", name: "First Bank of Nigeria" },
+      { code: "214", name: "First City Monument Bank" },
+      { code: "058", name: "Guaranty Trust Bank" },
+      { code: "030", name: "Heritage Bank" },
+      { code: "301", name: "Jaiz Bank" },
+      { code: "082", name: "Keystone Bank" },
+      { code: "076", name: "Polaris Bank" },
+      { code: "101", name: "Providus Bank" },
+      { code: "221", name: "Stanbic IBTC Bank" },
+      { code: "068", name: "Standard Chartered Bank" },
+      { code: "232", name: "Sterling Bank" },
+      { code: "100", name: "Suntrust Bank" },
+      { code: "032", name: "Union Bank of Nigeria" },
+      { code: "033", name: "United Bank for Africa" },
+      { code: "215", name: "Unity Bank" },
+      { code: "035", name: "Wema Bank" },
+      { code: "057", name: "Zenith Bank" },
     ]
   }
 
   // Simulate getting user's bank accounts
   static async getUserBankAccounts(): Promise<BankAccount[]> {
-    // In a real implementation, this would make an API call to get the user's bank accounts
-    console.log("Getting user bank accounts")
-
     // Simulate API delay
     await new Promise((resolve) => setTimeout(resolve, 1000))
 
     // Return a simulated list of user's bank accounts
     return [
       {
-        bankName: "Velocia Bank",
+        bankName: "Access Bank",
         accountNumber: "0123456789",
-        accountName: "Velocia Account",
+        accountName: "John Doe",
+        bankCode: "044",
       },
       {
-        bankName: "First Bank",
+        bankName: "Zenith Bank",
         accountNumber: "2345678901",
         accountName: "John Doe",
+        bankCode: "057",
       },
     ]
   }
@@ -128,9 +139,6 @@ export class BankIntegrationAPI {
   static async checkTransactionStatus(
     transactionId: string,
   ): Promise<{ status: "pending" | "completed" | "failed"; message: string }> {
-    // In a real implementation, this would make an API call to check the status of a transaction
-    console.log("Checking transaction status:", transactionId)
-
     // Simulate API delay
     await new Promise((resolve) => setTimeout(resolve, 1000))
 

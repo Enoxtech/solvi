@@ -1,4 +1,16 @@
-import { toast } from "@/components/ui/use-toast"
+import { useToast } from "@/components/ui/use-toast"
+
+// Declare the walletProvider type
+declare global {
+  interface Window {
+    walletProvider?: {
+      getProviderState: () => Promise<{
+        error?: string
+        [key: string]: any
+      }>
+    }
+  }
+}
 
 export async function getWalletState() {
   console.log("Getting wallet state...")
@@ -33,13 +45,9 @@ export async function getWalletState() {
       }
     }
 
-    toast({
-      title: "Wallet Error",
-      description: errorMessage,
-      variant: "destructive",
-    })
-
-    return null
+    // Note: This function should be called from a component that uses the useToast hook
+    // The actual toast call should be handled by the component using this function
+    throw new Error(errorMessage)
   }
 }
 

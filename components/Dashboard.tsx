@@ -1,6 +1,7 @@
 "use client"
 
-import type React from "react"
+import React, { useCallback } from "react"
+import Image from 'next/image'
 
 import { useState, useEffect, useRef } from "react"
 import { motion } from "framer-motion"
@@ -28,10 +29,12 @@ import { cn } from "@/lib/utils"
 import { AccountButton } from "@/components/AccountButton"
 import { WalletBalanceCard } from "@/components/WalletBalanceCard"
 import { NotificationIcon } from "@/components/NotificationIcon"
-import { formatCurrency } from "@/utils/currencyUtils"
+import { formatCurrency } from "@/utils/formatCurrency"
 import { useToast } from "@/components/ui/use-toast"
 import { useWalletStore } from "@/stores/walletStore"
 import { format } from "date-fns"
+import { Transaction, TransactionStatus, TransactionType, Currency } from "@/stores/walletStore"
+import { LucideIcon } from "lucide-react"
 
 // Keep existing components unchanged
 function TransactionCard({
@@ -53,7 +56,7 @@ function TransactionCard({
   status: "Successful" | "Completed" | "Pending" | "Failed" | null
   type?: "Wallet Funding" | "Payment"
   handleAdminApproval?: (id: string, newStatus: "Completed" | "Failed") => void
-  transaction?: any
+  transaction?: Transaction
 }) {
   const formatDate = (dateString: string) => {
     try {
@@ -166,11 +169,39 @@ function BannerSlide({
       )}
       {image && (
         <div className="absolute right-1 bottom-1">
-          <img src={image || "/placeholder.svg"} alt="" className="w-10 h-10 object-contain" />
+          <Image 
+            src={image} 
+            alt="Description" 
+            width={500} 
+            height={300}
+            className="w-10 h-10 object-contain"
+          />
         </div>
       )}
     </div>
   )
+}
+
+interface DashboardTransaction {
+  id: string
+  title: string
+  description: string
+  amount: string
+  date: string
+  status: TransactionStatus
+  currency: Currency
+  type: TransactionType
+  rawAmount: number
+  category: string
+}
+
+type IconComponent = React.ComponentType<{ className?: string }>
+
+interface QuickAction {
+  title: string
+  href: string
+  icon: IconComponent | (() => React.ReactNode)
+  color: string
 }
 
 export default function Dashboard() {
@@ -181,11 +212,11 @@ export default function Dashboard() {
   const [currentBannerIndex, setCurrentBannerIndex] = useState(0)
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
-  const [transactionsData, setTransactions] = useState([])
+  const [transactionsData, setTransactions] = useState<DashboardTransaction[]>([])
   const { toast } = useToast()
   const { updateTransactionStatus, addTransaction } = useWalletStore()
 
-  const handleAdminApproval = (id, newStatus) => {
+  const handleAdminApproval = (id: string, newStatus: "Completed" | "Failed") => {
     // Update transaction status in the wallet store
     updateTransactionStatus(id, newStatus)
 
@@ -205,7 +236,27 @@ export default function Dashboard() {
     })
   }
 
-  const quickActions = [
+  const loadTransactions = useCallback(() => {
+    try {
+      const mappedTransactions: DashboardTransaction[] = transactions.map((tx: Transaction) => ({
+        id: tx.id,
+        title: tx.description,
+        description: tx.category,
+        amount: formatCurrency(tx.amount, tx.currency),
+        date: tx.date,
+        status: tx.status,
+        currency: tx.currency,
+        type: tx.type,
+        rawAmount: tx.amount,
+        category: tx.category
+      }))
+      setTransactions(mappedTransactions)
+    } catch (error) {
+      setError("Failed to load transactions")
+    }
+  }, [transactions])
+
+  const quickActions: QuickAction[] = [
     {
       title: "Buy RMB",
       href: "/currency-exchange",
@@ -298,90 +349,8 @@ export default function Dashboard() {
   }, [currentBannerIndex])
 
   useEffect(() => {
-    // Load transactions from localStorage or wallet store
-    const loadTransactions = () => {
-      try {
-        // First try to get transactions from wallet store
-        const walletTransactions = useWalletStore.getState().getTransactionHistory()
-
-        if (walletTransactions && walletTransactions.length > 0) {
-          // Format wallet transactions for display
-          const formattedTransactions = walletTransactions.map((tx) => {
-            // Ensure amount is a valid number
-            const numAmount =
-              typeof tx.amount === "number" && !isNaN(tx.amount)
-                ? tx.amount
-                : typeof tx.amount === "string"
-                  ? Number.parseFloat(tx.amount.replace(/[^\d.-]/g, "")) || 0
-                  : 0
-
-            // Format the amount with the correct currency symbol
-            const formattedAmount =
-              tx.currency === "RMB"
-                ? `¥${(numAmount / 100).toLocaleString("en-NG", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
-                : tx.currency === "USD"
-                  ? `$${(numAmount / 100).toLocaleString("en-NG", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
-                  : `₦${(numAmount / 100).toLocaleString("en-NG", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
-
-            return {
-              id: tx.id,
-              title: tx.category,
-              description: tx.description,
-              amount: formattedAmount,
-              date: new Date(tx.date).toISOString(),
-              status: tx.status,
-              currency: tx.currency,
-              type: tx.type,
-              // Pass the original amount for calculations
-              rawAmount: numAmount,
-            }
-          })
-          setTransactions(formattedTransactions)
-          return
-        }
-
-        // Fallback to localStorage if no wallet transactions
-        const storedTransactions = localStorage.getItem("recentTransactions")
-        if (storedTransactions) {
-          const parsedTransactions = JSON.parse(storedTransactions)
-
-          // Ensure RMB purchases are set as pending by default
-          const updatedTransactions = parsedTransactions.map((tx) => {
-            if (tx.title === "RMB Purchase" && !tx.status) {
-              return { ...tx, status: "Pending" }
-            }
-            return tx
-          })
-
-          // Add transactions to wallet store to ensure they appear on /transactions page
-          updatedTransactions.forEach((tx) => {
-            // Only add if it doesn't already exist in the wallet store
-            if (!walletTransactions.some((wTx) => wTx.id === tx.id)) {
-              addTransaction({
-                amount:
-                  typeof tx.amount === "number" ? tx.amount : Number.parseFloat(tx.amount.replace(/[^\d.-]/g, "")),
-                currency: tx.currency || "NGN",
-                description: tx.description,
-                category: tx.title,
-                status: tx.status,
-                type: tx.type === "Wallet Funding" ? "credit" : "debit",
-                reference: tx.reference || `TX-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`,
-              })
-            }
-          })
-
-          setTransactions(updatedTransactions)
-
-          // Update localStorage with the updated transactions
-          localStorage.setItem("recentTransactions", JSON.stringify(updatedTransactions))
-        }
-      } catch (error) {
-        console.error("Error loading transactions:", error)
-      }
-    }
-
     loadTransactions()
-  }, [addTransaction])
+  }, [loadTransactions])
 
   // Format transactions for display
   const formattedTransactions = transactions.map((transaction) => ({
@@ -412,6 +381,13 @@ export default function Dashboard() {
               | "Pending",
             type: ["Wallet Funding", "Payment"][Math.floor(Math.random() * 2)] as "Wallet Funding" | "Payment",
           }))
+
+  const renderIcon = (Icon: IconComponent | (() => React.ReactNode)) => {
+    if ('render' in (Icon as any)) {
+      return <Icon className="h-5 w-5" />
+    }
+    return (Icon as () => React.ReactNode)()
+  }
 
   if (isLoading) {
     return <div className="flex justify-center items-center h-screen">Loading...</div>
@@ -500,63 +476,13 @@ export default function Dashboard() {
             </Link>
           </div>
           <div className="grid grid-cols-2 gap-4">
-            {quickActions.map((action, index) => (
-              <motion.div
-                key={action.href}
-                initial={{ opacity: 0, y: 20, scale: 0.9 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                transition={{
-                  type: "spring",
-                  stiffness: 300,
-                  damping: 25,
-                  delay: index * 0.1,
-                }}
-                whileHover={{
-                  scale: 1.05,
-                  rotate: [0, -1, 1, -1, 0],
-                  transition: { duration: 0.3 },
-                }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <Link href={action.href}>
-                  <Card
-                    className={cn(
-                      `bg-gradient-to-br ${action.color} text-white border-none shadow-md shadow-black/20 hover:shadow-lg hover:shadow-black/30 transition-all`,
-                      "overflow-hidden relative h-24 group",
-                    )}
-                  >
-                    <motion.div
-                      className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity"
-                      initial={false}
-                      animate={{ scale: [1, 1.5], opacity: [0.5, 0] }}
-                      transition={{
-                        duration: 1,
-                        repeat: Number.POSITIVE_INFINITY,
-                        repeatType: "loop",
-                      }}
-                    />
-                    <CardContent className="p-3 flex flex-col items-center justify-center text-center h-full relative z-10">
-                      {typeof action.icon === "function" ? (
-                        <motion.div
-                          className="mb-1 h-5 w-5 flex items-center justify-center"
-                          animate={{ y: [0, -2, 0] }}
-                          transition={{ duration: 1, repeat: Number.POSITIVE_INFINITY }}
-                        >
-                          {action.icon()}
-                        </motion.div>
-                      ) : (
-                        <motion.div
-                          animate={{ rotate: [0, 360] }}
-                          transition={{ duration: 20, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
-                        >
-                          <action.icon className="h-5 w-5 mb-1" />
-                        </motion.div>
-                      )}
-                      <h3 className="font-extrabold text-sm">{action.title}</h3>
-                    </CardContent>
-                  </Card>
-                </Link>
-              </motion.div>
+            {quickActions.map((action) => (
+              <Link key={action.title} href={action.href}>
+                <div className={`flex items-center gap-2 p-3 rounded-lg bg-gradient-to-r ${action.color}`}>
+                  {renderIcon(action.icon)}
+                  <span className="text-white text-sm font-medium">{action.title}</span>
+                </div>
+              </Link>
             ))}
           </div>
           {/* Add this somewhere in the component, perhaps in the quick actions section or user menu */}

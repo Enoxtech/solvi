@@ -243,7 +243,9 @@ export default function AdminDashboard() {
           <CardDescription className="text-white/70">Common administrative tasks</CardDescription>
         </CardHeader>
         <CardContent>
-          <AdminQuickActions />
+          <AdminQuickActions isOpen={false} onClose={function (): void {
+            throw new Error("Function not implemented.")
+          } } />
         </CardContent>
       </Card>
     </main>

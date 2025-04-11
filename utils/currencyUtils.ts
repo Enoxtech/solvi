@@ -28,13 +28,21 @@ export function formatAmount(amount: number | string, currency: CurrencyCode = "
   return formatCurrency(amount, currency)
 }
 
+type RateMap = {
+  [key: string]: number
+}
+
+type CurrencyRates = {
+  [key in CurrencyCode]: RateMap
+}
+
 export function convertCurrency(amount: number, fromCurrency: CurrencyCode, toCurrency: CurrencyCode): number {
   // Example conversion rates (in a real app, these would come from an API)
-  const rates = {
+  const rates: CurrencyRates = {
     NGN: { USD: 0.00067, RMB: 0.0048 },
     USD: { NGN: 1500, RMB: 7.2 },
     RMB: { NGN: 210, USD: 0.14 },
-  }
+  } as const
 
   if (fromCurrency === toCurrency) return amount
 

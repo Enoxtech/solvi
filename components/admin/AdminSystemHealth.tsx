@@ -110,8 +110,7 @@ export function AdminSystemHealth() {
             </div>
             <Progress
               value={service.load}
-              className="h-2 bg-white/10"
-              indicatorClassName={getLoadColor(service.load)}
+              className={cn("h-2 bg-white/10", getLoadColor(service.load))}
             />
 
             <div className="flex justify-between items-center text-xs text-white/70 mt-2">

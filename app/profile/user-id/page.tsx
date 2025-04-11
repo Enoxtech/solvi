@@ -43,7 +43,7 @@ export default function UserIdPage() {
   }
 
   return (
-    <ProfileLayout title="User ID" backUrl="/profile">
+    <ProfileLayout title="User ID" backLink="/profile">
       <div className="max-w-md mx-auto">
         <Card className="border-0 shadow-md">
           <CardHeader>

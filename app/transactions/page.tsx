@@ -32,7 +32,7 @@ interface Transaction {
   status: "Completed" | "Successful" | "Pending" | "Failed"
   recipient?: string
   description?: string
-  currency?: string
+  currency?: "NGN" | "RMB" | "USD"
 }
 
 // Updated transaction types to match Velocia's services
@@ -40,7 +40,7 @@ const transactionTypes = ["All", "RMB", "Wallet", "Bills", "Logistics"] as const
 type TransactionType = (typeof transactionTypes)[number]
 
 // Transaction type to icon mapping
-const typeIcons: Record<string, any> = {
+const typeIcons: Record<Transaction["type"], any> = {
   "RMB Purchase": DollarSign,
   "Wallet Funding": Wallet,
   "Bill Payment": FileText,
@@ -66,23 +66,25 @@ export default function TransactionsPage() {
 
         if (walletTransactions && walletTransactions.length > 0) {
           // Format wallet transactions for display
-          const formattedTransactions = walletTransactions.map((tx) => {
+          const formattedTransactions: Transaction[] = walletTransactions.map((tx) => {
             // Map wallet store transaction to Transaction interface
+            const transactionType = tx.category.includes("RMB")
+              ? "RMB Purchase"
+              : tx.category.includes("Wallet")
+                ? "Wallet Funding"
+                : tx.category.includes("Bill")
+                  ? "Bill Payment"
+                  : "Logistics"
+
             return {
               id: tx.id,
-              type: tx.category.includes("RMB")
-                ? "RMB Purchase"
-                : tx.category.includes("Wallet")
-                  ? "Wallet Funding"
-                  : tx.category.includes("Bill")
-                    ? "Bill Payment"
-                    : "Logistics",
-              amount: tx.amount,
+              type: transactionType,
+              amount: Number(tx.amount),
               date: tx.date,
-              status: tx.status,
+              status: tx.status as Transaction["status"],
               description: tx.description,
               recipient: tx.recipientDetails?.name,
-              currency: tx.currency,
+              currency: tx.currency as Transaction["currency"],
             }
           })
 
@@ -288,12 +290,7 @@ export default function TransactionsPage() {
                               )}
                               {(() => {
                                 // Ensure transaction.amount is a valid number
-                                const numAmount =
-                                  typeof transaction.amount === "number" && !isNaN(transaction.amount)
-                                    ? transaction.amount
-                                    : typeof transaction.amount === "string" && transaction.amount
-                                      ? Number.parseFloat(transaction.amount.replace(/[^\d.-]/g, "")) || 0
-                                      : 0
+                                const numAmount = transaction.amount
 
                                 // Format based on currency
                                 if (transaction.currency === "RMB") {
@@ -399,12 +396,7 @@ export default function TransactionsPage() {
                         )}
                         {(() => {
                           // Ensure transaction.amount is a valid number
-                          const numAmount =
-                            typeof transaction.amount === "number" && !isNaN(transaction.amount)
-                              ? transaction.amount
-                              : typeof transaction.amount === "string" && transaction.amount
-                                ? Number.parseFloat(transaction.amount.replace(/[^\d.-]/g, "")) || 0
-                                : 0
+                          const numAmount = transaction.amount
 
                           // Format based on currency
                           if (transaction.currency === "RMB") {

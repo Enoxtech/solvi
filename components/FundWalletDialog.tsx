@@ -56,7 +56,7 @@ export function FundWalletDialog() {
   }
 
   const handleCopyAccountDetails = () => {
-    navigator.clipboard.writeText("0011223344 - Velocia Bank")
+    navigator.clipboard.writeText("0011223344 - SOLVI Bank")
     setCopied(true)
     toast({
       title: "Account Details Copied",
@@ -229,7 +229,7 @@ export function FundWalletDialog() {
                     <div className="bg-gray-50 rounded-lg p-4 space-y-3">
                       <div className="flex justify-between">
                         <span className="text-gray-500">Account Name</span>
-                        <span className="font-medium">Velocia Ltd</span>
+                        <span className="font-medium">SOLVI Ltd</span>
                       </div>
                       <div className="flex justify-between">
                         <span className="text-gray-500">Account Number</span>
@@ -242,7 +242,7 @@ export function FundWalletDialog() {
                       </div>
                       <div className="flex justify-between">
                         <span className="text-gray-500">Bank</span>
-                        <span className="font-medium">Velocia Bank</span>
+                        <span className="font-medium">SOLVI Bank</span>
                       </div>
                       <div className="flex justify-between">
                         <span className="text-gray-500">Amount</span>
@@ -279,7 +279,7 @@ export function FundWalletDialog() {
                 <CheckCircle2 className="h-16 w-16 text-green-500 mx-auto" />
                 <h3 className="text-xl font-bold text-gray-800">Wallet Funded Successfully</h3>
                 <p className="text-gray-600">
-                  Your wallet has been credited with ₦{amount}. Thank you for using Velocia.
+                  Your wallet has been credited with ₦{amount}. Thank you for using SOLVI.
                 </p>
               </motion.div>
             )}

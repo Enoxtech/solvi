@@ -45,14 +45,14 @@ const faqs = [
   {
     id: "1",
     category: "general",
-    question: "What is Velocia?",
+    question: "What is SOLVI?",
     answer:
-      "Velocia is a multifunctional companion app for Nigerian entrepreneurs, offering services like currency exchange, logistics, bill payments, and more.",
+      "SOLVI is a multifunctional companion app for Nigerian entrepreneurs, offering services like currency exchange, logistics, bill payments, and more.",
   },
   {
     id: "2",
     category: "general",
-    question: "How do I get started with Velocia?",
+    question: "How do I get started with SOLVI?",
     answer:
       "To get started, create an account, verify your identity, and fund your wallet. You can then access all our services from the dashboard.",
   },
@@ -95,7 +95,7 @@ const faqs = [
     category: "support",
     question: "How do I contact customer support?",
     answer:
-      "You can reach our customer support team via email at support@velocia.com or by phone at +234 123 456 7890.",
+      "You can reach our customer support team via email at support@solvi.com or by phone at +234 123 456 7890.",
   },
 ]
 

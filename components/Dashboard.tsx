@@ -264,22 +264,10 @@ export default function Dashboard() {
       color: "from-secondary-500 to-secondary-700",
     },
     {
-      title: "Logistics",
-      href: "/logistics",
-      icon: Truck,
-      color: "from-primary-600 to-primary-800",
-    },
-    {
       title: "Bill Payments",
       href: "/bill-payments",
       icon: FileText,
       color: "from-accent-500 to-accent-700",
-    },
-    {
-      title: "Wallet/BNPL",
-      href: "/wallet",
-      icon: Grid,
-      color: "from-nebula-teal to-secondary-700",
     },
   ]
 
@@ -476,24 +464,56 @@ export default function Dashboard() {
             </Link>
           </div>
           <div className="grid grid-cols-2 gap-4">
-            {quickActions.map((action) => (
-              <Link key={action.title} href={action.href}>
-                <div className={`flex items-center gap-2 p-3 rounded-lg bg-gradient-to-r ${action.color}`}>
-                  {renderIcon(action.icon)}
-                  <span className="text-white text-sm font-medium">{action.title}</span>
-                </div>
-              </Link>
+            {quickActions.map((action, index) => (
+              <motion.div
+                key={action.title}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3, delay: index * 0.1 }}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+              >
+                <Link href={action.href}>
+                  <div 
+                    className={`flex flex-col items-center justify-center p-4 rounded-xl bg-gradient-to-br ${action.color} 
+                    shadow-lg shadow-black/20 hover:shadow-xl hover:shadow-black/30 transition-all duration-300
+                    h-24 relative overflow-hidden group`}
+                  >
+                    <motion.div
+                      className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity"
+                      initial={false}
+                      animate={{ scale: [1, 1.5], opacity: [0.5, 0] }}
+                      transition={{
+                        duration: 1,
+                        repeat: Number.POSITIVE_INFINITY,
+                        repeatType: "loop",
+                      }}
+                    />
+                    <div className="relative z-10 flex flex-col items-center justify-center">
+                      {typeof action.icon === "function" ? (
+                        <motion.div
+                          className="mb-2 h-8 w-8 flex items-center justify-center rounded-full bg-white/20"
+                          animate={{ y: [0, -2, 0] }}
+                          transition={{ duration: 1, repeat: Number.POSITIVE_INFINITY }}
+                        >
+                          <action.icon />
+                        </motion.div>
+                      ) : (
+                        <motion.div
+                          className="mb-2 h-8 w-8 flex items-center justify-center rounded-full bg-white/20"
+                          animate={{ rotate: [0, 360] }}
+                          transition={{ duration: 20, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
+                        >
+                          {React.createElement(action.icon, { className: "h-5 w-5" })}
+                        </motion.div>
+                      )}
+                      <span className="text-white text-sm font-semibold">{action.title}</span>
+                    </div>
+                  </div>
+                </Link>
+              </motion.div>
             ))}
           </div>
-          {/* Add this somewhere in the component, perhaps in the quick actions section or user menu */}
-          {/* This is a simplified example - you would typically check user roles before showing this */}
-          <Link
-            href="/admin"
-            className="flex items-center gap-2 p-3 mt-4 rounded-lg bg-primary-800 text-white hover:bg-primary-700 transition-colors"
-          >
-            <Shield className="h-5 w-5" />
-            <span>Admin Dashboard</span>
-          </Link>
         </section>
 
         {/* Recent Transactions */}

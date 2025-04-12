@@ -71,10 +71,10 @@ export function AdminEmailSystem() {
   const [emails, setEmails] = useState<Email[]>([
     {
       id: "e1",
-      subject: "Welcome to Velocia Admin",
-      content: "Thank you for joining Velocia. We're excited to have you on board!",
+      subject: "Welcome to SOLVI Admin",
+      content: "Thank you for joining SOLVI. We're excited to have you on board!",
       sender: users[0],
-      recipients: [{ id: "admin", name: "Admin", email: "admin@velocia.com" }],
+      recipients: [{ id: "admin", name: "Admin", email: "admin@solvi.com" }],
       timestamp: new Date(Date.now() - 1000 * 60 * 30), // 30 minutes ago
       read: true,
       starred: true,
@@ -84,9 +84,9 @@ export function AdminEmailSystem() {
     {
       id: "e2",
       subject: "Account Verification Required",
-      content: "Please verify your account to access all features of Velocia.",
+      content: "Please verify your account to access all features of SOLVI.",
       sender: users[1],
-      recipients: [{ id: "admin", name: "Admin", email: "admin@velocia.com" }],
+      recipients: [{ id: "admin", name: "Admin", email: "admin@solvi.com" }],
       timestamp: new Date(Date.now() - 1000 * 60 * 120), // 2 hours ago
       read: false,
       starred: false,
@@ -98,7 +98,7 @@ export function AdminEmailSystem() {
       subject: "Transaction Failed",
       content: "Your recent transaction has failed. Please check your payment details.",
       sender: users[2],
-      recipients: [{ id: "admin", name: "Admin", email: "admin@velocia.com" }],
+      recipients: [{ id: "admin", name: "Admin", email: "admin@solvi.com" }],
       timestamp: new Date(Date.now() - 1000 * 60 * 60 * 5), // 5 hours ago
       read: false,
       starred: true,
@@ -110,7 +110,7 @@ export function AdminEmailSystem() {
       subject: "New Feature Request",
       content: "I would like to request a new feature for the platform. Can we discuss this?",
       sender: users[3],
-      recipients: [{ id: "admin", name: "Admin", email: "admin@velocia.com" }],
+      recipients: [{ id: "admin", name: "Admin", email: "admin@solvi.com" }],
       timestamp: new Date(Date.now() - 1000 * 60 * 60 * 24), // 1 day ago
       read: true,
       starred: false,
@@ -125,7 +125,7 @@ export function AdminEmailSystem() {
       subject: "Invoice #INV-2023-001",
       content: "Please find attached the invoice for your recent purchase.",
       sender: users[4],
-      recipients: [{ id: "admin", name: "Admin", email: "admin@velocia.com" }],
+      recipients: [{ id: "admin", name: "Admin", email: "admin@solvi.com" }],
       timestamp: new Date(Date.now() - 1000 * 60 * 60 * 48), // 2 days ago
       read: true,
       starred: false,
@@ -140,7 +140,7 @@ export function AdminEmailSystem() {
       id: "s1",
       subject: "Re: Account Verification Required",
       content: "Your account has been verified successfully. Thank you for your patience.",
-      sender: { id: "admin", name: "Admin", email: "admin@velocia.com" },
+      sender: { id: "admin", name: "Admin", email: "admin@solvi.com" },
       recipients: [users[1]],
       timestamp: new Date(Date.now() - 1000 * 60 * 60), // 1 hour ago
       read: true,
@@ -151,8 +151,8 @@ export function AdminEmailSystem() {
     {
       id: "s2",
       subject: "Monthly Newsletter",
-      content: "Here's your monthly update on what's new at Velocia.",
-      sender: { id: "admin", name: "Admin", email: "admin@velocia.com" },
+      content: "Here's your monthly update on what's new at SOLVI.",
+      sender: { id: "admin", name: "Admin", email: "admin@solvi.com" },
       recipients: users,
       timestamp: new Date(Date.now() - 1000 * 60 * 60 * 24 * 3), // 3 days ago
       read: true,
@@ -193,7 +193,7 @@ export function AdminEmailSystem() {
       id: `s${sentEmails.length + 1}`,
       subject: composeData.subject,
       content: composeData.message,
-      sender: { id: "admin", name: "Admin", email: "admin@velocia.com" },
+      sender: { id: "admin", name: "Admin", email: "admin@solvi.com" },
       recipients: [{ id: "recipient", name: "Recipient", email: composeData.to }],
       timestamp: new Date(),
       read: true,

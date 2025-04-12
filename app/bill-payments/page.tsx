@@ -29,22 +29,16 @@ import { PageBackground } from "@/components/PageBackground"
 
 const services = [
   {
-    icon: <Wifi className="h-8 w-8 text-white" />,
-    label: "Buy Data",
-    color: "before:from-blue-500 before:to-blue-600",
-    type: "data",
-  },
-  {
     icon: <Phone className="h-8 w-8 text-white" />,
     label: "Airtime Top-up",
     color: "before:from-green-500 before:to-green-600",
     type: "airtime",
   },
   {
-    icon: <Lightbulb className="h-8 w-8 text-white" />,
-    label: "Utility Payment",
-    color: "before:from-yellow-500 before:to-yellow-600",
-    type: "utility",
+    icon: <Wifi className="h-8 w-8 text-white" />,
+    label: "Buy Data",
+    color: "before:from-blue-500 before:to-blue-600",
+    type: "data",
   },
   {
     icon: <Tv className="h-8 w-8 text-white" />,
@@ -53,16 +47,16 @@ const services = [
     type: "tv",
   },
   {
+    icon: <Lightbulb className="h-8 w-8 text-white" />,
+    label: "Utility Payment",
+    color: "before:from-yellow-500 before:to-yellow-600",
+    type: "utility",
+  },
+  {
     icon: <Radio className="h-8 w-8 text-white" />,
     label: "Internet Bill",
     color: "before:from-pink-500 before:to-pink-600",
     type: "internet",
-  },
-  {
-    icon: <MessageSquare className="h-8 w-8 text-white" />,
-    label: "Bulk SMS",
-    color: "before:from-indigo-500 before:to-indigo-600",
-    type: "sms",
   },
   {
     icon: <Dice6 className="h-8 w-8 text-white" />,

@@ -32,18 +32,18 @@ export default function LoginPage() {
   >([])
 
   useEffect(() => {
-    // Create animated bubbles with more vibrant colors and larger sizes
-    const newBubbles = Array.from({ length: 15 }, (_, i) => ({
+    // Create animated bubbles with optimized performance
+    const newBubbles = Array.from({ length: 8 }, (_, i) => ({
       id: i,
       x: Math.random() * 100,
       y: Math.random() * 100,
-      size: Math.random() * 300 + 100, // Larger bubbles
-      speed: Math.random() * 5 + 2,
-      color: `hsl(${Math.random() * 360}, 80%, 65%, 0.35)`, // More vibrant and visible
+      size: Math.random() * 200 + 100, // Reduced size range
+      speed: Math.random() * 3 + 1, // Reduced speed
+      color: `hsl(${Math.random() * 360}, 80%, 65%, 0.25)`, // Reduced opacity
     }))
     setBubbles(newBubbles)
 
-    // Enhanced parallax effect with more pronounced movement
+    // Optimized parallax effect
     const handleMouseMove = (e: MouseEvent) => {
       if (!containerRef.current) return
 
@@ -52,13 +52,16 @@ export default function LoginPage() {
       const y = (e.clientY - top) / height
 
       setMousePosition({
-        x: (x - 0.5) * 40, // More pronounced movement
-        y: (y - 0.5) * 40,
+        x: (x - 0.5) * 20, // Reduced movement
+        y: (y - 0.5) * 20,
       })
     }
 
-    window.addEventListener("mousemove", handleMouseMove)
-    return () => window.removeEventListener("mousemove", handleMouseMove)
+    // Only add mousemove listener for non-mobile devices
+    if (window.innerWidth > 768) {
+      window.addEventListener("mousemove", handleMouseMove)
+      return () => window.removeEventListener("mousemove", handleMouseMove)
+    }
   }, [])
 
   const handleLogin = async (e: React.FormEvent) => {
@@ -143,12 +146,12 @@ export default function LoginPage() {
   return (
     <div
       ref={containerRef}
-      className="min-h-screen w-full flex items-center justify-center p-4 overflow-hidden bg-gradient-to-br from-primary-900 via-primary-800 to-primary-900"
+      className="min-h-screen w-full flex items-center justify-center p-4 overflow-hidden bg-gradient-to-br from-primary-800 via-primary-700 to-primary-900"
     >
-      {/* Enhanced animated background with grid overlay */}
+      {/* Enhanced animated background */}
       <div className="absolute inset-0 overflow-hidden">
-        {/* Grid overlay for depth */}
-        <div className="absolute inset-0 bg-grid-white/[0.02] bg-[length:50px_50px] opacity-40" />
+        {/* Refined grid overlay */}
+        <div className="absolute inset-0 bg-grid-white/[0.03] bg-[length:50px_50px] opacity-30" />
 
         {/* Enhanced animated bubbles */}
         {bubbles.map((bubble) => (
@@ -160,55 +163,55 @@ export default function LoginPage() {
               height: bubble.size,
               left: `${bubble.x}%`,
               top: `${bubble.y}%`,
-              background: bubble.color,
-              boxShadow: `0 0 80px ${bubble.color.replace("0.35", "0.5")}`,
+              background: `hsl(${Math.random() * 60 + 200}, 80%, 65%, 0.25)`, // More coordinated colors
+              boxShadow: `0 0 70px ${bubble.color.replace("0.25", "0.35")}`,
             }}
             animate={{
-              y: [0, -bubble.speed * 120, 0],
-              x: [0, bubble.speed * 30, 0],
-              scale: [1, 1.2, 1],
-              opacity: [0.7, 0.9, 0.7],
+              y: [0, -bubble.speed * 100, 0],
+              x: [0, bubble.speed * 25, 0],
+              scale: [1, 1.15, 1],
+              opacity: [0.4, 0.8, 0.4],
             }}
             transition={{
               repeat: Number.POSITIVE_INFINITY,
-              duration: 15 + bubble.speed * 5,
+              duration: 25 + bubble.speed * 5,
               ease: "easeInOut",
             }}
           />
         ))}
 
-        {/* Enhanced gradient overlay with more pronounced parallax */}
+        {/* Enhanced gradient overlay */}
         <motion.div
-          className="absolute inset-0 bg-gradient-radial from-transparent to-primary-900/90"
+          className="absolute inset-0 bg-gradient-radial from-transparent via-primary-900/50 to-primary-900/90"
           animate={{
             x: mousePosition.x,
             y: mousePosition.y,
           }}
           transition={{
             type: "spring",
-            stiffness: 75,
-            damping: 25,
+            stiffness: 40,
+            damping: 15,
             mass: 1,
           }}
         />
 
-        {/* Light beams for added effect */}
-        <div className="absolute inset-0 overflow-hidden opacity-20">
-          {[...Array(3)].map((_, i) => (
+        {/* Refined light beams */}
+        <div className="absolute inset-0 overflow-hidden opacity-10">
+          {[...Array(2)].map((_, i) => (
             <motion.div
               key={i}
-              className="absolute h-[500px] w-[60px] bg-gradient-to-b from-blue-400 to-transparent blur-3xl"
+              className="absolute h-[450px] w-[45px] bg-gradient-to-b from-blue-400/50 to-transparent blur-2xl"
               style={{
-                left: `${25 + i * 25}%`,
-                top: "-250px",
+                left: `${25 + i * 50}%`,
+                top: "-225px",
                 transformOrigin: "center bottom",
               }}
               animate={{
                 rotate: [45, 60, 45],
-                opacity: [0.4, 0.7, 0.4],
+                opacity: [0.2, 0.4, 0.2],
               }}
               transition={{
-                duration: 8 + i * 2,
+                duration: 12 + i * 2,
                 repeat: Number.POSITIVE_INFINITY,
                 ease: "easeInOut",
               }}

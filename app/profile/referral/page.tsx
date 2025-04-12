@@ -23,9 +23,9 @@ export default function ReferralPage() {
   const handleShare = () => {
     if (navigator.share) {
       navigator.share({
-        title: "Join Velocia",
-        text: `Use my referral code ${referralCode} to sign up for Velocia and get ₦1,000 bonus!`,
-        url: `https://velocia.app/register?ref=${referralCode}`,
+        title: "Join SOLVI",
+        text: `Use my referral code ${referralCode} to sign up for SOLVI and get ₦1,000 bonus!`,
+        url: `https://solvi.app/register?ref=${referralCode}`,
       })
     } else {
       handleCopyCode()
@@ -48,7 +48,7 @@ export default function ReferralPage() {
             <div>
               <h2 className="text-xl font-bold">Refer & Earn ₦1,000</h2>
               <p className="mt-2 text-white/90">
-                Invite your friends to join Velocia and earn ₦1,000 when they make their first deposit.
+                Invite your friends to join SOLVI and earn ₦1,000 when they make their first deposit.
               </p>
             </div>
           </div>

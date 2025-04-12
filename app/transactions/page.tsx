@@ -35,7 +35,7 @@ interface Transaction {
   currency?: "NGN" | "RMB" | "USD"
 }
 
-// Updated transaction types to match Velocia's services
+// Updated transaction types to match SOLVI's services
 const transactionTypes = ["All", "RMB", "Wallet", "Bills", "Logistics"] as const
 type TransactionType = (typeof transactionTypes)[number]
 

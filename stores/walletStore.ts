@@ -221,7 +221,7 @@ export const useWalletStore = create<WalletState>()(
       },
     }),
     {
-      name: "velocia-wallet-storage",
+      name: "solvi-wallet-storage",
     },
   ),
 )

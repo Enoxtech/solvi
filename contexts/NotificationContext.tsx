@@ -37,7 +37,7 @@ const initialNotifications: Notification[] = [
   {
     id: "1",
     title: "Urgent: System Maintenance",
-    message: "Velocia will be undergoing maintenance on June 15th from 2AM to 4AM GMT. Please plan accordingly.",
+    message: "The system will be undergoing maintenance on June 15th from 2AM to 4AM GMT. Please plan accordingly.",
     type: "urgent",
     timestamp: new Date(Date.now() - 1000 * 60 * 30), // 30 minutes ago
     read: false,
@@ -45,7 +45,7 @@ const initialNotifications: Notification[] = [
   {
     id: "2",
     title: "New Exchange Rate Available",
-    message: "The RMB exchange rate has been updated. Check the new rates for better conversions!",
+    message: "Exchange rates have been updated. Check the new rates for better conversions!",
     type: "info",
     timestamp: new Date(Date.now() - 1000 * 60 * 60 * 2), // 2 hours ago
     read: false,
@@ -53,7 +53,7 @@ const initialNotifications: Notification[] = [
   {
     id: "3",
     title: "Transaction Successful",
-    message: "Your RMB purchase of ¥1,500 has been completed successfully.",
+    message: "Your purchase of 1,500 has been completed successfully.",
     type: "success",
     timestamp: new Date(Date.now() - 1000 * 60 * 60 * 5), // 5 hours ago
     read: false,
@@ -61,7 +61,7 @@ const initialNotifications: Notification[] = [
   {
     id: "4",
     title: "Limited Time Offer",
-    message: "Get 0.5% discount on all RMB purchases above ¥5,000 until June 20th!",
+    message: "Get 0.5% discount on all purchases above 5,000 until June 20th!",
     type: "warning",
     timestamp: new Date(Date.now() - 1000 * 60 * 60 * 24), // 1 day ago
     read: false,
@@ -191,68 +191,79 @@ export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({ 
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -50, scale: 0.9 }}
             transition={{ type: "spring", damping: 25, stiffness: 300 }}
-            className="fixed top-2 left-0 right-0 mx-auto z-[9999] w-[calc(100%-16px)] max-w-[320px]"
-            style={{ maxHeight: "30vh", overflow: "auto" }}
-            drag
-            dragConstraints={{ left: 0, right: 0, top: 0, bottom: 0 }}
-            dragElastic={0.1}
-            onDragEnd={handleDrag}
+            className="fixed inset-0 z-[9999999] flex items-start justify-center pointer-events-none"
+            style={{ position: 'fixed', zIndex: 9999999 }}
           >
-            <Card
-              className={cn(
-                "backdrop-blur-md border-0 shadow-lg rounded-lg overflow-hidden",
-                "bg-gradient-to-r",
-                getBackgroundGradient(currentUrgentNotification.type),
-              )}
+            <motion.div 
+              className="w-[calc(100%-16px)] max-w-[320px] mt-2 pointer-events-auto"
+              drag="x"
+              dragConstraints={{ left: -100, right: 100 }}
+              dragElastic={0.1}
+              onDragEnd={(event, info) => {
+                if (Math.abs(info.offset.x) > 50) {
+                  setShowUrgentPopup(false)
+                  if (currentUrgentNotification) {
+                    markAsRead(currentUrgentNotification.id)
+                  }
+                }
+              }}
             >
-              <div className="p-3 sm:p-4">
-                <div className="flex items-start justify-between">
-                  <div className="flex items-start gap-2 pr-2 flex-1">
-                    <div className="mt-0.5 p-1 bg-white/10 rounded-full shrink-0">
-                      {getNotificationIcon(currentUrgentNotification.type)}
-                    </div>
-                    <div className="min-w-0 flex-1">
-                      <h3 className="font-semibold text-white text-xs sm:text-sm line-clamp-1">
-                        {currentUrgentNotification.title}
-                      </h3>
-                      <p className="text-[10px] sm:text-xs text-white/90 mt-0.5 line-clamp-2">
-                        {currentUrgentNotification.message}
-                      </p>
-                      <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 mt-2">
-                        <Button
-                          size="sm"
-                          variant="ghost"
-                          className="h-6 text-[10px] px-1.5 text-white/90 hover:text-white hover:bg-white/10"
-                          onClick={() => markAsRead(currentUrgentNotification.id)}
-                        >
-                          Dismiss
-                        </Button>
-                        {currentUrgentNotification.link && (
+              <Card
+                className={cn(
+                  "backdrop-blur-md border-0 shadow-lg rounded-lg overflow-hidden",
+                  "bg-gradient-to-r",
+                  getBackgroundGradient(currentUrgentNotification.type),
+                )}
+              >
+                <div className="p-3 sm:p-4">
+                  <div className="flex items-start justify-between">
+                    <div className="flex items-start gap-2 pr-2 flex-1">
+                      <div className="mt-0.5 p-1 bg-white/10 rounded-full shrink-0">
+                        {getNotificationIcon(currentUrgentNotification.type)}
+                      </div>
+                      <div className="min-w-0 flex-1">
+                        <h3 className="font-semibold text-white text-xs sm:text-sm line-clamp-1">
+                          {currentUrgentNotification.title}
+                        </h3>
+                        <p className="text-[10px] sm:text-xs text-white/90 mt-0.5 line-clamp-2">
+                          {currentUrgentNotification.message}
+                        </p>
+                        <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 mt-2">
                           <Button
                             size="sm"
-                            className="h-6 text-[10px] px-1.5 bg-white text-primary hover:bg-white/90"
-                            onClick={() => {
-                              markAsRead(currentUrgentNotification.id)
-                              // In a real app, you would use router.push here
-                            }}
+                            variant="ghost"
+                            className="h-6 text-[10px] px-1.5 text-white/90 hover:text-white hover:bg-white/10"
+                            onClick={() => markAsRead(currentUrgentNotification.id)}
                           >
-                            View Details
+                            Dismiss
                           </Button>
-                        )}
+                          {currentUrgentNotification.link && (
+                            <Button
+                              size="sm"
+                              className="h-6 text-[10px] px-1.5 bg-white text-primary hover:bg-white/90"
+                              onClick={() => {
+                                markAsRead(currentUrgentNotification.id)
+                                // In a real app, you would use router.push here
+                              }}
+                            >
+                              View Details
+                            </Button>
+                          )}
+                        </div>
                       </div>
                     </div>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="h-5 w-5 rounded-full text-white/80 hover:text-white hover:bg-white/10 shrink-0 -mt-1 -mr-1"
+                      onClick={() => markAsRead(currentUrgentNotification.id)}
+                    >
+                      <X className="h-3 w-3" />
+                    </Button>
                   </div>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className="h-5 w-5 rounded-full text-white/80 hover:text-white hover:bg-white/10 shrink-0 -mt-1 -mr-1"
-                    onClick={() => markAsRead(currentUrgentNotification.id)}
-                  >
-                    <X className="h-3 w-3" />
-                  </Button>
                 </div>
-              </div>
-            </Card>
+              </Card>
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>

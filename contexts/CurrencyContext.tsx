@@ -28,10 +28,10 @@ export function CurrencyProvider({ children }: { children: React.ReactNode }) {
     setCurrencyState(newCurrency)
     // Update the wallet store's currency in localStorage
     try {
-      const walletData = JSON.parse(localStorage.getItem("velocia-wallet-storage") || "{}")
+      const walletData = JSON.parse(localStorage.getItem("solvi-wallet-storage") || "{}")
       if (walletData.state) {
         walletData.state.currency = newCurrency
-        localStorage.setItem("velocia-wallet-storage", JSON.stringify(walletData))
+        localStorage.setItem("solvi-wallet-storage", JSON.stringify(walletData))
       }
     } catch (error) {
       console.error("Failed to update currency in localStorage", error)

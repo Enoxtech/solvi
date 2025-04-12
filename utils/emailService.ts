@@ -54,7 +54,7 @@ export const emailService = {
         
         <div style="text-align: center; padding-top: 20px; border-top: 1px solid #e0e0e0; color: #777; font-size: 12px;">
           <p>This is an automated message, please do not reply directly to this email.</p>
-          <p>&copy; ${new Date().getFullYear()} Velocia. All rights reserved.</p>
+          <p>&copy; ${new Date().getFullYear()} SOLVI. All rights reserved.</p>
         </div>
       </div>
     `

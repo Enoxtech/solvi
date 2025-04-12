@@ -23,7 +23,7 @@ export function AdminProvider({ children }: { children: ReactNode }) {
 
   // Check for stored admin status on mount
   useEffect(() => {
-    const storedAdminStatus = localStorage.getItem("velocia_admin_access")
+    const storedAdminStatus = localStorage.getItem("solvi_admin_access")
     if (storedAdminStatus === "true") {
       setIsAdmin(true)
     }
@@ -68,7 +68,7 @@ export function AdminProvider({ children }: { children: ReactNode }) {
   const toggleAdminAccess = () => {
     const newStatus = !isAdmin
     setIsAdmin(newStatus)
-    localStorage.setItem("velocia_admin_access", newStatus.toString())
+    localStorage.setItem("solvi_admin_access", newStatus.toString())
 
     // If turning off admin access while on an admin page, redirect to home
     if (!newStatus && pathname?.startsWith("/admin")) {

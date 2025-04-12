@@ -9,7 +9,7 @@ export function WalletStateObserver() {
     // and synchronized across the application
 
     // Check if we need to initialize the wallet from localStorage
-    const storedWalletData = localStorage.getItem("velocia-wallet-storage")
+    const storedWalletData = localStorage.getItem("solvi-wallet-storage")
     if (storedWalletData) {
       try {
         const parsedData = JSON.parse(storedWalletData)
@@ -29,13 +29,13 @@ export function WalletStateObserver() {
     const unsubscribe = useWalletStore.subscribe((state, prevState) => {
       if (state.balance !== prevState.balance) {
         // Ensure localStorage is updated with the latest balance
-        const storedData = localStorage.getItem("velocia-wallet-storage")
+        const storedData = localStorage.getItem("solvi-wallet-storage")
         if (storedData) {
           try {
             const parsedData = JSON.parse(storedData)
             if (parsedData.state) {
               parsedData.state.balance = state.balance
-              localStorage.setItem("velocia-wallet-storage", JSON.stringify(parsedData))
+              localStorage.setItem("solvi-wallet-storage", JSON.stringify(parsedData))
             }
           } catch (error) {
             console.error("Error updating wallet data in localStorage:", error)

@@ -49,7 +49,7 @@ export default function UserIdPage() {
           <CardHeader>
             <CardTitle>Your Unique User ID</CardTitle>
             <CardDescription>
-              This is your unique identifier in the Velocia system. You can share this ID with others to receive
+              This is your unique identifier in the SOLVI system. You can share this ID with others to receive
               payments.
             </CardDescription>
           </CardHeader>

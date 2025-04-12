@@ -1,19 +1,38 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
-
 import Link from "next/link"
-
 import { useState, useEffect } from "react"
 import { Users, CreditCard, TrendingUp, DollarSign, Activity } from "lucide-react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { AdminChart } from "@/components/admin/AdminChart"
-import { AdminTransactionTable } from "@/components/admin/AdminTransactionTable"
-import { AdminUserActivity } from "@/components/admin/AdminUserActivity"
-import { AdminApiStatus } from "@/components/admin/AdminApiStatus"
-import { AdminSystemHealth } from "@/components/admin/AdminSystemHealth"
-import { AdminQuickActions } from "@/components/admin/AdminQuickActions"
+import dynamic from 'next/dynamic'
 import { getRmbRate } from "@/app/actions/rmbRates"
+
+// Dynamically import heavy components
+const AdminChart = dynamic(() => import("@/components/admin/AdminChart").then(mod => mod.AdminChart), {
+  loading: () => <div className="h-[300px] animate-pulse bg-muted rounded-lg" />,
+  ssr: false
+})
+const AdminTransactionTable = dynamic(() => import("@/components/admin/AdminTransactionTable").then(mod => mod.AdminTransactionTable), {
+  loading: () => <div className="h-[400px] animate-pulse bg-muted rounded-lg" />,
+  ssr: false
+})
+const AdminUserActivity = dynamic(() => import("@/components/admin/AdminUserActivity").then(mod => mod.AdminUserActivity), {
+  loading: () => <div className="h-[200px] animate-pulse bg-muted rounded-lg" />,
+  ssr: false
+})
+const AdminApiStatus = dynamic(() => import("@/components/admin/AdminApiStatus").then(mod => mod.AdminApiStatus), {
+  loading: () => <div className="h-[150px] animate-pulse bg-muted rounded-lg" />,
+  ssr: false
+})
+const AdminSystemHealth = dynamic(() => import("@/components/admin/AdminSystemHealth").then(mod => mod.AdminSystemHealth), {
+  loading: () => <div className="h-[200px] animate-pulse bg-muted rounded-lg" />,
+  ssr: false
+})
+const AdminQuickActions = dynamic(() => import("@/components/admin/AdminQuickActions").then(mod => mod.AdminQuickActions), {
+  loading: () => <div className="h-[100px] animate-pulse bg-muted rounded-lg" />,
+  ssr: false
+})
 
 export default function AdminDashboard() {
   const [mounted, setMounted] = useState(false)

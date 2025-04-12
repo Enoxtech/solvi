@@ -11,7 +11,7 @@ export default function BankDetails() {
   const { toast } = useToast()
 
   const handleEmailSupport = () => {
-    window.location.href = "mailto:support@velocia.app"
+    window.location.href = "mailto:support@solvi.app"
     toast({
       title: "Email Client Opened",
       description: "Opening your default email client",

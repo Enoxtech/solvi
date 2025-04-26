@@ -135,72 +135,8 @@ export default function AdminLoginPage() {
   }
 
   return (
-    <div
-      ref={containerRef}
-      className="min-h-screen w-full flex items-center justify-center p-4 overflow-hidden bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900"
-    >
-      {/* Animated background with grid overlay */}
-      <div className="absolute inset-0 overflow-hidden">
-        {/* Grid overlay for technical feel */}
-        <div className="absolute inset-0 bg-grid-white/[0.03] bg-[length:30px_30px] opacity-70" />
-
-        {/* Animated particles */}
-        {particles.map((particle) => (
-          <motion.div
-            key={particle.id}
-            className="absolute rounded-full"
-            style={{
-              width: particle.size,
-              height: particle.size,
-              left: `${particle.x}%`,
-              top: `${particle.y}%`,
-              background: particle.color,
-            }}
-            animate={{
-              x: particle.velocity.x * 10,
-              y: particle.velocity.y * 10,
-            }}
-            transition={{
-              repeat: Number.POSITIVE_INFINITY,
-              duration: 5,
-              ease: "linear",
-            }}
-          />
-        ))}
-
-        {/* Digital circuit lines */}
-        <div className="absolute inset-0 overflow-hidden opacity-20">
-          {[...Array(10)].map((_, i) => (
-            <motion.div
-              key={i}
-              className="absolute h-[1px] bg-gradient-to-r from-blue-400 via-cyan-400 to-transparent"
-              style={{
-                width: `${Math.random() * 30 + 10}%`,
-                left: `${Math.random() * 70}%`,
-                top: `${Math.random() * 100}%`,
-                transformOrigin: "left center",
-              }}
-              animate={{
-                scaleX: [0, 1, 1, 0],
-                opacity: [0, 1, 1, 0],
-              }}
-              transition={{
-                duration: Math.random() * 4 + 3,
-                repeat: Number.POSITIVE_INFINITY,
-                ease: "easeInOut",
-                delay: Math.random() * 5,
-              }}
-            />
-          ))}
-        </div>
-      </div>
-
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, ease: "easeOut" }}
-        className="w-full max-w-md z-10"
-      >
+    <div className="min-h-screen w-full flex items-center justify-center p-4 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
+      <div className="w-full max-w-md z-10">
         <div className="text-center mb-8">
           <motion.div className="inline-block" whileHover={{ scale: 1.05, rotate: 5 }} whileTap={{ scale: 0.95 }}>
             <div className="h-24 w-24 rounded-full bg-gradient-to-br from-blue-500 to-cyan-600 flex items-center justify-center mx-auto mb-4 shadow-[0_0_30px_rgba(6,182,212,0.7)]">
@@ -360,7 +296,7 @@ export default function AdminLoginPage() {
         <div className="mt-8 text-center text-white/50 text-xs">
           <p>© 2025 SOLVI. All rights reserved.</p>
         </div>
-      </motion.div>
+      </div>
     </div>
   )
 }

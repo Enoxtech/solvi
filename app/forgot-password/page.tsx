@@ -78,83 +78,8 @@ export default function ForgotPasswordPage() {
   }
 
   return (
-    <div
-      ref={containerRef}
-      className="min-h-screen w-full flex items-center justify-center p-4 overflow-hidden bg-gradient-to-br from-primary-800 via-primary-700 to-primary-900"
-    >
-      {/* Enhanced animated background */}
-      <div className="absolute inset-0 overflow-hidden">
-        {/* Refined grid overlay */}
-        <div className="absolute inset-0 bg-grid-white/[0.03] bg-[length:50px_50px] opacity-30" />
-
-        {/* Enhanced animated bubbles */}
-        {bubbles.map((bubble) => (
-          <motion.div
-            key={bubble.id}
-            className="absolute rounded-full blur-xl"
-            style={{
-              width: bubble.size,
-              height: bubble.size,
-              left: `${bubble.x}%`,
-              top: `${bubble.y}%`,
-              background: `hsl(${Math.random() * 60 + 200}, 80%, 65%, 0.25)`,
-              boxShadow: `0 0 70px hsl(${Math.random() * 60 + 200}, 80%, 65%, 0.35)`,
-            }}
-            animate={{
-              y: [0, -bubble.speed * 100, 0],
-              x: [0, bubble.speed * 25, 0],
-              scale: [1, 1.15, 1],
-              opacity: [0.4, 0.8, 0.4],
-            }}
-            transition={{
-              repeat: Number.POSITIVE_INFINITY,
-              duration: 25 + bubble.speed * 5,
-              ease: "easeInOut",
-            }}
-          />
-        ))}
-
-        {/* Enhanced gradient overlay */}
-        <motion.div
-          className="absolute inset-0 bg-gradient-radial from-transparent via-primary-900/50 to-primary-900/90"
-          animate={{
-            x: mousePosition.x,
-            y: mousePosition.y,
-          }}
-          transition={{
-            type: "spring",
-            stiffness: 40,
-            damping: 15,
-            mass: 1,
-          }}
-        />
-
-        {/* Refined light beams */}
-        <div className="absolute inset-0 overflow-hidden opacity-10">
-          {[...Array(2)].map((_, i) => (
-            <motion.div
-              key={i}
-              className="absolute h-[450px] w-[45px] bg-gradient-to-b from-blue-400/50 to-transparent blur-2xl"
-              style={{
-                left: `${25 + i * 50}%`,
-                top: "-225px",
-                transformOrigin: "center bottom",
-              }}
-              animate={{
-                rotate: [45, 60, 45],
-                opacity: [0.2, 0.4, 0.2],
-              }}
-              transition={{
-                duration: 12 + i * 2,
-                repeat: Number.POSITIVE_INFINITY,
-                ease: "easeInOut",
-              }}
-            />
-          ))}
-        </div>
-      </div>
-
-      <div className="relative z-10 w-full max-w-md">
+    <div className="min-h-screen w-full flex items-center justify-center p-4 bg-gradient-to-br from-primary-800 via-primary-700 to-primary-900">
+      <div className="w-full max-w-md z-10">
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}

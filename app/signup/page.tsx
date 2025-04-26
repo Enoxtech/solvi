@@ -123,61 +123,8 @@ export default function SignupPage() {
   }
 
   return (
-    <div
-      ref={containerRef}
-      className="min-h-screen w-full flex items-center justify-center p-4 overflow-hidden bg-gradient-to-br from-primary-800 via-primary-700 to-primary-900"
-    >
-      {/* Animated background */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute inset-0 bg-grid-white/[0.03] bg-[length:50px_50px] opacity-30" />
-
-        {bubbles.map((bubble) => (
-          <motion.div
-            key={bubble.id}
-            className="absolute rounded-full blur-xl"
-            style={{
-              width: bubble.size,
-              height: bubble.size,
-              left: `${bubble.x}%`,
-              top: `${bubble.y}%`,
-              background: `hsl(${Math.random() * 60 + 200}, 80%, 65%, 0.25)`,
-              boxShadow: `0 0 70px hsl(${Math.random() * 60 + 200}, 80%, 65%, 0.35)`,
-            }}
-            animate={{
-              y: [0, -bubble.speed * 100, 0],
-              x: [0, bubble.speed * 25, 0],
-              scale: [1, 1.15, 1],
-              opacity: [0.4, 0.8, 0.4],
-            }}
-            transition={{
-              repeat: Number.POSITIVE_INFINITY,
-              duration: 25 + bubble.speed * 5,
-              ease: "easeInOut",
-            }}
-          />
-        ))}
-
-        <motion.div
-          className="absolute inset-0 bg-gradient-radial from-transparent via-primary-900/50 to-primary-900/90"
-          animate={{
-            x: mousePosition.x,
-            y: mousePosition.y,
-          }}
-          transition={{
-            type: "spring",
-            stiffness: 40,
-            damping: 15,
-            mass: 1,
-          }}
-        />
-      </div>
-
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, ease: "easeOut" }}
-        className="w-full max-w-2xl z-10"
-      >
+    <div className="min-h-screen w-full flex items-center justify-center p-4 bg-gradient-to-br from-primary-800 via-primary-700 to-primary-900">
+      <div className="w-full max-w-2xl z-10">
         <div className="text-center mb-8">
           <motion.div className="inline-block" whileHover={{ scale: 1.05, rotate: 5 }} whileTap={{ scale: 0.95 }}>
             <div className="h-20 w-20 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center mx-auto mb-4 shadow-[0_0_30px_rgba(59,130,246,0.7)]">
@@ -378,7 +325,7 @@ export default function SignupPage() {
             </div>
           </CardFooter>
         </Card>
-      </motion.div>
+      </div>
     </div>
   )
 }

@@ -14,6 +14,8 @@ import { TransactionNotification } from "@/components/TransactionNotification"
 import { WalletStateObserver } from "@/components/WalletStateObserver"
 import { BottomNavWrapper } from "@/components/BottomNavWrapper"
 import { FocusVisiblePolyfill } from "@/components/FocusVisiblePolyfill"
+import { useAuth } from "@/contexts/AuthContext"
+import { GlobalWidgets } from "@/components/GlobalWidgets"
 
 const inter = Inter({
   subsets: ['latin'],
@@ -29,6 +31,14 @@ export const metadata: Metadata = {
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
+  // Make this a client component
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  if (typeof window !== "undefined") {
+    require("./globals.css")
+  }
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const { isAuthPage } = typeof window !== "undefined" ? require("@/contexts/AuthContext").useAuth() : { isAuthPage: false }
+
   return (
     <html lang="en" className={inter.variable}>
       <body className="min-h-screen bg-background font-sans antialiased">
@@ -39,8 +49,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 <PageWrapper>
                   {children}
                   <FundWalletDialog />
-                  <AIAssistantWidget />
-                  <TransactionNotification />
+                  <GlobalWidgets />
                   <WalletStateObserver />
                   <BottomNavWrapper />
                   <FocusVisiblePolyfill />

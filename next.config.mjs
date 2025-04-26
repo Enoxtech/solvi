@@ -17,7 +17,10 @@ const nextConfig = {
     return config
   },
   experimental: {
-    serverActions: true,
+    serverActions: {
+      allowedOrigins: ['localhost:3000'],
+      bodySizeLimit: '2mb'
+    },
     optimizeCss: true,
     optimizePackageImports: ['@radix-ui/react-icons', 'lucide-react'],
   },

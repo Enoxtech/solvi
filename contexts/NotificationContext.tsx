@@ -7,6 +7,7 @@ import { X, Bell, AlertTriangle, Info, CheckCircle } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { cn } from "@/lib/utils"
+import { useAuth } from "@/contexts/AuthContext"
 
 export type NotificationType = "info" | "success" | "warning" | "urgent"
 
@@ -73,6 +74,7 @@ export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({ 
   const [notifications, setNotifications] = useState<Notification[]>(initialNotifications)
   const [showUrgentPopup, setShowUrgentPopup] = useState(false)
   const [currentUrgentNotification, setCurrentUrgentNotification] = useState<Notification | null>(null)
+  const { isAuthPage } = useAuth();
 
   const unreadCount = notifications.filter((n) => !n.read).length
 
@@ -185,7 +187,7 @@ export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({ 
 
       {/* Urgent Notification Popup */}
       <AnimatePresence>
-        {showUrgentPopup && currentUrgentNotification && (
+        {!isAuthPage && showUrgentPopup && currentUrgentNotification && (
           <motion.div
             initial={{ opacity: 0, y: -50, scale: 0.9 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}

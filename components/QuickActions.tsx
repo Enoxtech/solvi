@@ -17,10 +17,10 @@ type QuickAction = {
 export function QuickActions() {
   const quickActions: QuickAction[] = [
     {
-      title: "Betting",
-      href: "/bill-payments/betting",
-      icon: () => <span className="text-white text-sm font-bold">B</span>,
-      color: "from-secondary-500 to-secondary-700",
+      title: "Airtime Top-up",
+      href: "/bill-payments/airtime",
+      icon: () => <span className="text-white text-sm font-bold">A</span>,
+      color: "from-accent-500 to-accent-700",
     },
     {
       title: "Buy Data",
@@ -29,16 +29,10 @@ export function QuickActions() {
       color: "from-primary-600 to-primary-800",
     },
     {
-      title: "Airtime Top-up",
-      href: "/bill-payments/airtime",
-      icon: () => <span className="text-white text-sm font-bold">A</span>,
-      color: "from-accent-500 to-accent-700",
-    },
-    {
-      title: "Wallet/BNPL",
-      href: "/wallet",
-      icon: Grid,
-      color: "from-nebula-teal to-secondary-700",
+      title: "Betting",
+      href: "/bill-payments/betting",
+      icon: () => <span className="text-white text-sm font-bold">B</span>,
+      color: "from-secondary-500 to-secondary-700",
     },
   ]
 

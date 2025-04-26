@@ -34,7 +34,7 @@ export default function BiometricsPage() {
 
   return (
     <ProfileLayout title="Manage Biometrics" backLink="/profile">
-      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="p-6 space-y-6">
+      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="max-w-xl mx-auto p-10 space-y-6 mt-10 mb-10">
         {/* Main Card */}
         <motion.div
           initial={{ scale: 0.95 }}

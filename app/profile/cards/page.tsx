@@ -8,7 +8,7 @@ import { ProfileLayout } from "@/components/ProfileLayout"
 export default function ManageCards() {
   return (
     <ProfileLayout title="Manage Cards" backLink="/profile">
-      <div className="flex flex-col items-center justify-center p-8 min-h-[60vh]">
+      <div className="max-w-lg mx-auto p-10 flex flex-col items-center justify-center mt-10 mb-10">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center space-y-4">
           <div className="w-20 h-20 mx-auto bg-gray-100 rounded-full flex items-center justify-center">
             <CreditCard className="w-10 h-10 text-gray-400" />

@@ -271,7 +271,7 @@ export default function CurrencyExchange() {
 
               {/* Amount to Receive */}
               <div className="space-y-4">
-                <h2 className="text-xl font-medium text-gray-800">Amount you&apos;ll receive</h2>
+                <h2 className="text-xl font-medium text-gray-800">Amount you'll receive</h2>
                 <div className="bg-[#F8F9FE] rounded-full p-4 flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <div className="w-6 h-6 rounded-full bg-[#DE2910] flex items-center justify-center">
@@ -353,7 +353,6 @@ export default function CurrencyExchange() {
           message="The minimum RMB purchase amount is 50 RMB. Please increase your purchase amount."
           type="warning"
         />
-        <p className="text-white/70">Don&apos;t have an account? <Link href="/signup">Sign up</Link></p>
       </main>
     </div>
   )

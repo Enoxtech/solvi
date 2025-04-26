@@ -6,9 +6,11 @@ import { usePathname, useRouter } from "next/navigation"
 
 type User = {
   id: string
-  name: string
+  firstName: string
+  lastName: string
   email: string
   role: "user" | "admin"
+  isVerified: boolean
 } | null
 
 interface AuthContextType {
@@ -55,7 +57,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     // Check for stored auth on mount
     const storedUser = localStorage.getItem("solvi_user")
-    if (storedUser) {
+    const storedToken = localStorage.getItem("solvi_token")
+    
+    if (storedUser && storedToken) {
       setUser(JSON.parse(storedUser))
     }
     setIsLoading(false)
@@ -77,39 +81,30 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, [isLoading, user, isProtectedRoute, isAuthPage, router, pathname])
 
   const login = async (email: string, password: string) => {
-    // This would be an API call in a real app
     setIsLoading(true)
 
     try {
-      // Simulate API delay
-      await new Promise((resolve) => setTimeout(resolve, 1000))
+      const response = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      })
 
-      // Demo login logic
-      if (email === "user@example.com" && password === "password") {
-        const userData = {
-          id: "user-1",
-          name: "Demo User",
-          email: "user@example.com",
-          role: "user",
-        } as const
+      const data = await response.json()
 
-        setUser(userData)
-        localStorage.setItem("solvi_user", JSON.stringify(userData))
-        return true
-      } else if (email === "admin@solvi.com" && password === "admin123") {
-        const adminData = {
-          id: "admin-1",
-          name: "Admin User",
-          email: "admin@solvi.com",
-          role: "admin",
-        } as const
-
-        setUser(adminData)
-        localStorage.setItem("solvi_user", JSON.stringify(adminData))
-        return true
+      if (!response.ok) {
+        throw new Error(data.error || "Login failed")
       }
 
-      return false
+      const { user, token } = data
+
+      setUser(user)
+      localStorage.setItem("solvi_user", JSON.stringify(user))
+      localStorage.setItem("solvi_token", token)
+
+      return true
     } catch (error) {
       console.error("Login error:", error)
       return false
@@ -121,6 +116,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const logout = () => {
     setUser(null)
     localStorage.removeItem("solvi_user")
+    localStorage.removeItem("solvi_token")
     router.push("/login")
   }
 

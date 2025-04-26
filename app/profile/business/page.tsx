@@ -32,7 +32,7 @@ export default function BusinessInformation() {
 
   return (
     <ProfileLayout title="Business Information" backLink="/profile">
-      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="p-6 space-y-6">
+      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="max-w-xl mx-auto p-10 space-y-6 mt-10 mb-10">
         <div className="space-y-4">
           <div className="space-y-2">
             <Label htmlFor="businessName">Business Name</Label>

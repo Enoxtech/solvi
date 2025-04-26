@@ -20,7 +20,7 @@ export default function BankDetails() {
 
   return (
     <ProfileLayout title="Bank Details" backLink="/profile">
-      <div className="p-6 space-y-6">
+      <div className="max-w-xl mx-auto p-10 space-y-6 mt-10 mb-10">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
           <Card className="bg-gray-50 p-6 space-y-4">
             <div className="space-y-3">

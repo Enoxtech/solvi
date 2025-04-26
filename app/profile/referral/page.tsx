@@ -38,7 +38,7 @@ export default function ReferralPage() {
 
   return (
     <ProfileLayout title="Refer & Earn" backLink="/profile">
-      <div className="p-6 space-y-6">
+      <div className="max-w-xl mx-auto p-10 space-y-6 mt-10 mb-10">
         {/* Referral Banner */}
         <Card className="bg-gradient-to-r from-primary to-primary/80 text-white p-6 rounded-xl">
           <div className="flex items-start gap-4">

@@ -11,8 +11,6 @@ import { Textarea } from "@/components/ui/textarea"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { AdminHeader } from "@/components/admin/admin-header"
-import { AdminSidebar } from "@/components/admin/admin-sidebar"
 
 export default function AdminProfilePage() {
   const [isEditing, setIsEditing] = useState(false)
@@ -39,9 +37,7 @@ export default function AdminProfilePage() {
 
   return (
     <div className="flex h-screen bg-primary-950">
-      <AdminSidebar />
       <div className="flex-1 flex flex-col overflow-hidden">
-        <AdminHeader />
         <div className="flex-1 overflow-y-auto p-6 bg-primary-900">
           <div className="max-w-5xl mx-auto">
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>

@@ -13,7 +13,7 @@ export default function KYCVerification() {
 
   return (
     <ProfileLayout title="KYC and Verification" backLink="/profile">
-      <div className="p-6 space-y-6">
+      <div className="max-w-xl mx-auto p-10 space-y-6 mt-10 mb-10">
         {/* Tier 1 Verification */}
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
           <Link href="/profile/kyc/tier1">

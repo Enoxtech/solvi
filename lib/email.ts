@@ -1,7 +1,6 @@
-import { Resend } from 'resend';
-
-// Initialize Resend with API key
-const resend = new Resend(process.env.RESEND_API_KEY);
+import { WelcomeEmail } from './email-templates/welcome';
+import { ResetPasswordEmail } from './email-templates/reset-password';
+import { TransactionNotificationEmail } from './email-templates/transaction-notification';
 
 // Email templates
 const templates = {
@@ -117,95 +116,96 @@ const templates = {
 };
 
 // Email service functions
-export const emailService = {
-  sendWelcomeEmail: async (to: string, name: string) => {
-    try {
-      const { data, error } = await resend.emails.send({
-        from: 'SOLVI <noreply@solvi.com>',
-        to,
-        subject: 'Welcome to SOLVI!',
-        html: templates.welcome(name),
-      });
+export const sendWelcomeEmail = async (email: string, username: string) => {
+  try {
+    const response = await fetch('/api/email', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        type: 'welcome',
+        data: { email, username }
+      }),
+    });
 
-      if (error) {
-        console.error('Error sending welcome email:', error);
-        return false;
-      }
-
-      return true;
-    } catch (error) {
-      console.error('Error sending welcome email:', error);
-      return false;
+    if (!response.ok) {
+      throw new Error('Failed to send welcome email');
     }
-  },
+  } catch (error) {
+    console.error('Error sending welcome email:', error);
+    throw error;
+  }
+};
 
-  sendPasswordResetEmail: async (to: string, name: string, resetLink: string) => {
-    try {
-      const { data, error } = await resend.emails.send({
-        from: 'SOLVI <noreply@solvi.com>',
-        to,
-        subject: 'Reset Your SOLVI Password',
-        html: templates.passwordReset(name, resetLink),
-      });
+export const sendPasswordResetEmail = async (email: string, username: string, resetLink: string) => {
+  try {
+    const response = await fetch('/api/email', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        type: 'reset-password',
+        data: { email, username, resetLink }
+      }),
+    });
 
-      if (error) {
-        console.error('Error sending password reset email:', error);
-        return false;
-      }
-
-      return true;
-    } catch (error) {
-      console.error('Error sending password reset email:', error);
-      return false;
+    if (!response.ok) {
+      throw new Error('Failed to send password reset email');
     }
-  },
+  } catch (error) {
+    console.error('Error sending password reset email:', error);
+    throw error;
+  }
+};
 
-  sendVerificationEmail: async (to: string, name: string, verificationLink: string) => {
-    try {
-      const { data, error } = await resend.emails.send({
-        from: 'SOLVI <noreply@solvi.com>',
-        to,
-        subject: 'Verify Your SOLVI Email',
-        html: templates.verification(name, verificationLink),
-      });
+export const sendVerificationEmail = async (to: string, name: string, verificationLink: string) => {
+  try {
+    const { data, error } = await resend.emails.send({
+      from: 'SOLVI <noreply@solvi.com>',
+      to,
+      subject: 'Verify Your SOLVI Email',
+      html: templates.verification(name, verificationLink),
+    });
 
-      if (error) {
-        console.error('Error sending verification email:', error);
-        return false;
-      }
-
-      return true;
-    } catch (error) {
+    if (error) {
       console.error('Error sending verification email:', error);
       return false;
     }
-  },
 
-  sendTransactionEmail: async (
-    to: string,
-    name: string,
-    transactionId: string,
-    status: string,
-    amount: number,
-    description: string
-  ) => {
-    try {
-      const { data, error } = await resend.emails.send({
-        from: 'SOLVI <noreply@solvi.com>',
-        to,
-        subject: `Transaction ${status}: ${description}`,
-        html: templates.transaction(name, transactionId, status, amount, description),
-      });
+    return true;
+  } catch (error) {
+    console.error('Error sending verification email:', error);
+    return false;
+  }
+};
 
-      if (error) {
-        console.error('Error sending transaction email:', error);
-        return false;
-      }
+export const sendTransactionNotification = async (
+  email: string,
+  username: string,
+  transactionId: string,
+  amount: string,
+  currency: string,
+  status: string
+) => {
+  try {
+    const response = await fetch('/api/email', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        type: 'transaction',
+        data: { email, username, transactionId, amount, currency, status }
+      }),
+    });
 
-      return true;
-    } catch (error) {
-      console.error('Error sending transaction email:', error);
-      return false;
+    if (!response.ok) {
+      throw new Error('Failed to send transaction notification');
     }
-  },
+  } catch (error) {
+    console.error('Error sending transaction notification:', error);
+    throw error;
+  }
 }; 

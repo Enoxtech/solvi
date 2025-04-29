@@ -12,12 +12,15 @@ import { hapticFeedback } from "@/utils/haptics"
 import { Card, CardContent } from "@/components/ui/card"
 import Link from "next/link"
 import { PageBackground } from "@/components/PageBackground"
+import { sendPasswordResetEmail } from '@/lib/email'
 
 export default function ForgotPasswordPage() {
   const [email, setEmail] = useState("")
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSubmitted, setIsSubmitted] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [success, setSuccess] = useState<string | null>(null)
+  const [isLoading, setIsLoading] = useState(false)
   const router = useRouter()
   const containerRef = useRef<HTMLDivElement>(null)
 
@@ -62,27 +65,32 @@ export default function ForgotPasswordPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    setIsSubmitting(true)
+    setError(null)
+    setSuccess(null)
+    setIsLoading(true)
+
     try {
-      const response = await fetch("/api/auth/forgot-password", {
-        method: "POST",
+      const response = await fetch('/api/auth/forgot-password', {
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({
+          email,
+        }),
       })
 
       const data = await response.json()
 
       if (!response.ok) {
-        throw new Error(data.error || "Failed to send reset email")
+        throw new Error(data.message || 'Failed to send reset password email')
       }
 
-      setIsSubmitted(true)
+      setSuccess('Password reset email sent! Please check your inbox.')
     } catch (err) {
-      setError(err instanceof Error ? err.message : "An error occurred. Please try again.")
+      setError(err instanceof Error ? err.message : 'An error occurred while sending the reset password email')
     } finally {
-      setIsSubmitting(false)
+      setIsLoading(false)
     }
   }
 
@@ -129,6 +137,16 @@ export default function ForgotPasswordPage() {
 
                   <Card className="border border-white/20 bg-black/40 backdrop-blur-xl shadow-[0_10px_50px_rgba(0,0,0,0.5)]">
                     <CardContent className="pt-6 px-6 pb-6">
+                      {error && (
+                        <div className="mb-4 bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded">
+                          {error}
+                        </div>
+                      )}
+                      {success && (
+                        <div className="mb-4 bg-green-50 border border-green-200 text-green-600 px-4 py-3 rounded">
+                          {success}
+                        </div>
+                      )}
                       <form onSubmit={handleSubmit} className="space-y-6">
                         <div className="space-y-2">
                           <label className="text-sm font-medium text-white/80">Email Address</label>
@@ -155,9 +173,9 @@ export default function ForgotPasswordPage() {
                           <Button
                             type="submit"
                             className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white shadow-[0_5px_15px_rgba(59,130,246,0.4)] transition-all duration-300 py-6 rounded-full"
-                            disabled={isSubmitting}
+                            disabled={isLoading}
                           >
-                            {isSubmitting ? (
+                            {isLoading ? (
                               <Loader2 className="h-5 w-5 animate-spin" />
                             ) : (
                               <div className="flex items-center justify-center">

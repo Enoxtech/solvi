@@ -1,7 +1,6 @@
 "use client"
 
 import type React from "react"
-
 import { useState, useEffect, useRef } from "react"
 import { useRouter } from "next/navigation"
 import { motion, AnimatePresence } from "framer-motion"
@@ -28,6 +27,7 @@ import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Checkbox } from "@/components/ui/checkbox"
 import { PageBackground } from "@/components/PageBackground"
+import Link from 'next/link'
 
 const COUNTRY_CODES = [
   { code: "+234", label: "Nigeria", flag: "🇳🇬" },
@@ -40,12 +40,12 @@ const COUNTRY_CODES = [
   { code: "+237", label: "Cameroon", flag: "🇨🇲" },
   { code: "+212", label: "Morocco", flag: "🇲🇦" },
   { code: "+20", label: "Egypt", flag: "🇪🇬" },
-  // Add more as needed
 ]
 
 export default function SignupPage() {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState("")
+  const [success, setSuccess] = useState("")
   const router = useRouter()
   const containerRef = useRef<HTMLDivElement>(null)
 
@@ -102,21 +102,15 @@ export default function SignupPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (!agree) {
-      setError("You must agree to the Terms & Conditions and Privacy Policy.")
-      return
-    }
-    if (password !== confirmPassword) {
-      setError("Passwords do not match.")
-      return
-    }
-    setError("")
+    setError('')
+    setSuccess('')
     setIsLoading(true)
+
     try {
-      const response = await fetch("/api/auth/register", {
-        method: "POST",
+      const response = await fetch('/api/auth/register', {
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({
           firstName,
@@ -132,12 +126,22 @@ export default function SignupPage() {
       const data = await response.json()
 
       if (!response.ok) {
-        throw new Error(data.error || "Registration failed")
+        throw new Error(data.error || 'Registration failed')
       }
 
-      router.push("/login?registered=true")
+      setSuccess(data.message)
+      // Clear form
+      setFirstName('')
+      setLastName('')
+      setEmail('')
+      setPassword('')
+      setConfirmPassword('')
+      setPhone('')
+      setCountryCode(COUNTRY_CODES[0].code)
+      setReferrer('')
+      setAgree(false)
     } catch (err) {
-      setError(err instanceof Error ? err.message : "An error occurred. Please try again.")
+      setError(err instanceof Error ? err.message : 'Registration failed')
     } finally {
       setIsLoading(false)
     }
@@ -180,6 +184,16 @@ export default function SignupPage() {
               </CardDescription>
             </CardHeader>
             <CardContent>
+              {error && (
+                <div className="mb-4 bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded">
+                  {error}
+                </div>
+              )}
+              {success && (
+                <div className="mb-4 bg-green-50 border border-green-200 text-green-600 px-4 py-3 rounded">
+                  {success}
+                </div>
+              )}
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="grid grid-cols-1 gap-4">
                   {/* Personal Details */}
@@ -314,19 +328,6 @@ export default function SignupPage() {
                     I agree to the <span className="text-blue-400">Terms & Conditions</span> and <span className="text-blue-400">Privacy Policy</span>
                   </label>
                 </div>
-
-                <AnimatePresence>
-                  {error && (
-                    <motion.div
-                      initial={{ opacity: 0, y: -10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -10 }}
-                      className="text-red-400 text-sm bg-red-500/20 p-3 rounded-md border border-red-500/30 shadow-[0_0_15px_rgba(239,68,68,0.2)]"
-                    >
-                      {error}
-                    </motion.div>
-                  )}
-                </AnimatePresence>
 
                 <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} className="pt-4">
                   <Button

@@ -20,7 +20,8 @@ export default function LoginPage() {
   const [password, setPassword] = useState("")
   const [showPassword, setShowPassword] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
-  const [error, setError] = useState("")
+  const [error, setError] = useState<string | null>(null)
+  const [success, setSuccess] = useState<string | null>(null)
   const router = useRouter()
   const containerRef = useRef<HTMLDivElement>(null)
   const { toast } = useToast()
@@ -65,32 +66,34 @@ export default function LoginPage() {
     }
   }, [])
 
-  const handleLogin = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    hapticFeedback.medium()
-    setIsLoading(true)
-    setError("")
+    setError(null)
+    setSuccess(null)
 
     try {
-      const success = await login(email, password)
+      const response = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email,
+          password,
+        }),
+      })
 
-      if (success) {
-        hapticFeedback.success()
-        toast({
-          title: "Login successful",
-          description: "Welcome back to SOLVI!",
-          variant: "default",
-        })
-        router.push("/dashboard")
-      } else {
-        hapticFeedback.error()
-        setError("Invalid email or password")
+      const data = await response.json()
+
+      if (!response.ok) {
+        throw new Error(data.message || 'Login failed')
       }
+
+      setSuccess('Login successful! Redirecting...')
+      // Redirect to dashboard or home page
+      router.push('/dashboard')
     } catch (err) {
-      hapticFeedback.error()
-      setError("An error occurred. Please try again.")
-    } finally {
-      setIsLoading(false)
+      setError(err instanceof Error ? err.message : 'An error occurred during login')
     }
   }
 
@@ -186,7 +189,17 @@ export default function LoginPage() {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <form onSubmit={handleLogin} className="space-y-4">
+              {error && (
+                <div className="mb-4 bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded">
+                  {error}
+                </div>
+              )}
+              {success && (
+                <div className="mb-4 bg-green-50 border border-green-200 text-green-600 px-4 py-3 rounded">
+                  {success}
+                </div>
+              )}
+              <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="space-y-2">
                   <div className="relative group">
                     <Mail className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-white/50 group-hover:text-white/80 transition-colors duration-200" />
@@ -238,19 +251,6 @@ export default function LoginPage() {
                     />
                   </div>
                 </div>
-
-                <AnimatePresence>
-                  {error && (
-                    <motion.div
-                      initial={{ opacity: 0, y: -10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -10 }}
-                      className="text-red-400 text-sm bg-red-500/20 p-3 rounded-md border border-red-500/30 shadow-[0_0_15px_rgba(239,68,68,0.2)]"
-                    >
-                      {error}
-                    </motion.div>
-                  )}
-                </AnimatePresence>
 
                 <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
                   <Button

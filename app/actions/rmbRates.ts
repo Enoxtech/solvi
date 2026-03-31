@@ -1,50 +1,28 @@
 "use server"
 
-import { revalidatePath } from "next/cache"
-
-// This is a mock implementation. In a real application, you would connect to a database.
-let currentRmbRate = {
-  rate: 150.75,
-  lastUpdated: new Date().toISOString(),
+export interface RmbRates {
+  buyRate: number   // NGN per RMB (how many Naira per 1 RMB)
+  sellRate: number  // NGN per RMB (how many Naira per 1 RMB)
+  timestamp: number
 }
 
-export async function getRmbRate() {
-  // In a real application, you would fetch this from a database
-  return currentRmbRate
+const MOCK_RATES: RmbRates = {
+  buyRate: 61.5,
+  sellRate: 60.8,
+  timestamp: Date.now(),
 }
 
-export async function updateRmbRate(newRate: number) {
-  try {
-    // Validate the new rate
-    if (isNaN(newRate) || newRate <= 0) {
-      return {
-        success: false,
-        error: "Invalid rate. Please provide a positive number.",
-      }
-    }
-
-    // In a real application, you would update this in a database
-    currentRmbRate = {
-      rate: newRate,
-      lastUpdated: new Date().toISOString(),
-    }
-
-    // Revalidate the pages that display the RMB rate
-    revalidatePath("/admin")
-    revalidatePath("/admin/rmb-rates")
-    revalidatePath("/dashboard")
-    revalidatePath("/currency-exchange")
-
-    return {
-      success: true,
-      message: "RMB rate updated successfully",
-    }
-  } catch (error) {
-    console.error("Error updating RMB rate:", error)
-    return {
-      success: false,
-      error: "Failed to update RMB rate",
-    }
-  }
+export async function getRmbRates(): Promise<RmbRates> {
+  // In production, fetch from a real rate API
+  return MOCK_RATES
 }
 
+export async function getBuyRate(): Promise<number> {
+  const rates = await getRmbRates()
+  return rates.buyRate
+}
+
+export async function getSellRate(): Promise<number> {
+  const rates = await getRmbRates()
+  return rates.sellRate
+}

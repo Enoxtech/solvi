@@ -423,7 +423,7 @@ export default function Dashboard() {
                   repeatType: "loop",
                 }}
               >
-                <NotificationIcon />
+                <AccountButton />
               </motion.div>
               <div className="flex items-center gap-4">
                 <motion.div
@@ -440,7 +440,7 @@ export default function Dashboard() {
                     <HelpCircle className="h-6 w-6" />
                   </Link>
                 </motion.div>
-                <AccountButton />
+                <NotificationIcon />
               </div>
             </div>
           </div>

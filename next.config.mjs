@@ -21,11 +21,29 @@ const nextConfig = {
       allowedOrigins: ['localhost:3000'],
       bodySizeLimit: '2mb'
     },
-    optimizeCss: true,
+    optimizeCss: false,
     optimizePackageImports: ['@radix-ui/react-icons', 'lucide-react'],
   },
   compress: true,
   poweredByHeader: false,
+  // PWA headers
+  async headers() {
+    return [
+      {
+        source: '/sw.js',
+        headers: [
+          { key: 'Cache-Control', value: 'public, max-age=0, must-revalidate' },
+          { key: 'Service-Worker-Allowed', value: '/' },
+        ],
+      },
+      {
+        source: '/manifest.json',
+        headers: [
+          { key: 'Cache-Control', value: 'public, max-age=86400' },
+        ],
+      },
+    ];
+  },
 }
 
 export default nextConfig

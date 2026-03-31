@@ -3,7 +3,6 @@ import type { Metadata, Viewport } from "next"
 import { Inter } from "next/font/google"
 import "./globals.css"
 import { Providers } from "./providers"
-import { PWAInstaller } from "@/lib/pwa";
 
 const inter = Inter({
   subsets: ['latin'],
@@ -52,7 +51,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body className="min-h-screen bg-[#0A0E17] text-white font-sans antialiased">
         <Providers>{children}</Providers>
-        <PWAInstaller />
       </body>
     </html>
   )

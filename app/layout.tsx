@@ -1,21 +1,9 @@
 import type React from "react"
-import type { Metadata } from "next"
+import type { Metadata, Viewport } from "next"
 import { Inter } from "next/font/google"
 import "./globals.css"
-import { FundWalletDialog } from "@/components/FundWalletDialog"
-import { PageWrapper } from "@/components/PageWrapper"
-import { WalletProvider } from "@/contexts/WalletContext"
-import { CurrencyProvider } from "@/contexts/CurrencyContext"
-import { NotificationProvider } from "@/contexts/NotificationContext"
-import { AIAssistantWidget } from "@/components/AIAssistantWidget"
-import { AuthProvider } from "@/contexts/AuthContext"
-import { Toaster } from "@/components/ui/toaster"
-import { TransactionNotification } from "@/components/TransactionNotification"
-import { WalletStateObserver } from "@/components/WalletStateObserver"
-import { BottomNavWrapper } from "@/components/BottomNavWrapper"
-import { FocusVisiblePolyfill } from "@/components/FocusVisiblePolyfill"
-import { useAuth } from "@/contexts/AuthContext"
-import { GlobalWidgets } from "@/components/GlobalWidgets"
+import { Providers } from "./providers"
+import { PWAInstaller } from "@/lib/pwa";
 
 const inter = Inter({
   subsets: ['latin'],
@@ -26,44 +14,46 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: "SOLVI: Buy RMB with Ease",
-  description: "A multifunctional companion app for Nigerian entrepreneurs",
-  generator: 'v0.dev'
+  description: "Buy and sell RMB with instant Naira transfers. The fastest way for Nigerian entrepreneurs to move money between China and Nigeria.",
+  generator: 'v0.dev',
+  manifest: "/manifest.json",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "black-translucent",
+    title: "SOLVI",
+  },
+  formatDetection: {
+    telephone: false,
+  },
+  openGraph: {
+    title: "SOLVI - Naira ↔ RMB Exchange",
+    description: "Buy and sell RMB with instant Naira transfers",
+    type: "website",
+  },
+}
+
+export const viewport: Viewport = {
+  themeColor: "#0A0E17",
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-  // Make this a client component
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  if (typeof window !== "undefined") {
-    require("./globals.css")
-  }
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const { isAuthPage } = typeof window !== "undefined" ? require("@/contexts/AuthContext").useAuth() : { isAuthPage: false }
-
   return (
-    <html lang="en" className={inter.variable}>
-      <body className="min-h-screen bg-background font-sans antialiased">
-        <AuthProvider>
-          <WalletProvider>
-            <CurrencyProvider>
-              <NotificationProvider>
-                <PageWrapper>
-                  {children}
-                  <FundWalletDialog />
-                  <GlobalWidgets />
-                  <WalletStateObserver />
-                  <BottomNavWrapper />
-                  <FocusVisiblePolyfill />
-                </PageWrapper>
-                <Toaster />
-              </NotificationProvider>
-            </CurrencyProvider>
-          </WalletProvider>
-        </AuthProvider>
+    <html lang="en" className="dark">
+      <head>
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+        <link rel="apple-touch-icon" href="/icons/icon-192.png" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        <meta name="apple-mobile-web-app-title" content="SOLVI" />
+      </head>
+      <body className="min-h-screen bg-[#0A0E17] text-white font-sans antialiased">
+        <Providers>{children}</Providers>
+        <PWAInstaller />
       </body>
     </html>
   )
 }
-
-
-
-import './globals.css'

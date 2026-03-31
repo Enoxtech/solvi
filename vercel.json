@@ -1,4 +1,5 @@
 {
   "cleanUrls": true,
-  "framework": "nextjs"
+  "framework": "nextjs",
+  "installCommand": "npm install"
 }

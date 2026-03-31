@@ -22,7 +22,7 @@ export default function LoginPage() {
     await new Promise(r => setTimeout(r, 1200))
     localStorage.setItem("solvi_user", JSON.stringify({ id: "1", firstName: "Sam", lastName: "Ono", email, role: "user", isVerified: true }))
     localStorage.setItem("solvi_token", "mock_token")
-    router.push("/dashboard")
+    router.push("/wallet")
   }
 
   return (

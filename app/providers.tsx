@@ -11,7 +11,7 @@ import { GlobalWidgets } from "@/components/GlobalWidgets"
 import { WalletStateObserver } from "@/components/WalletStateObserver"
 import { BottomNavWrapper } from "@/components/BottomNavWrapper"
 import { FocusVisiblePolyfill } from "@/components/FocusVisiblePolyfill"
-import { Toaster } from "@/components/ui/toaster"
+import { Toaster } from "@/components/ui/sonner"
 import { TransactionNotification } from "@/components/TransactionNotification"
 
 export function Providers({ children }: { children: React.ReactNode }) {

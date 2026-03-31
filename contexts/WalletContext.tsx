@@ -13,6 +13,15 @@ interface WalletContextType {
 
 const WalletContext = createContext<WalletContextType | undefined>(undefined)
 
+function formatNairaBalance(amount: number): string {
+  return new Intl.NumberFormat("en-NG", {
+    style: "currency",
+    currency: "NGN",
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  }).format(amount)
+}
+
 export function WalletProvider({ children }: { children: ReactNode }) {
   const walletStore = useWalletStore()
   const [balance, setBalance] = useState(walletStore.balance)
@@ -36,7 +45,7 @@ export function WalletProvider({ children }: { children: ReactNode }) {
     <WalletContext.Provider
       value={{
         balance,
-        formattedBalance: walletStore.getFormattedBalance(),
+        formattedBalance: formatNairaBalance(balance),
         updateBalance: (newBalance: number) => {
           // This is a compatibility layer for old code
           // In new code, use the store's methods directly
@@ -72,4 +81,3 @@ export function useWallet() {
   }
   return context
 }
-

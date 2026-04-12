@@ -1,0 +1,17 @@
+# EAS ignores these from upload — EAS rebuilds android/ from source anyway
+android/
+.gradle/
+.kotlin/
+build/
+# Expo prebuild regenerates these
+# app.json
+# babel.config.js
+# metro.config.js
+
+# Docs and irrelevant files
+*.md
+docs/
+*.txt
+.env.local
+.env.development
+.env.production
